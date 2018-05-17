@@ -13,7 +13,9 @@ class App extends React.Component {
     this.state = {
       deckName: '',
       deckDescription: '',
-      likes: 0
+      likes: 0,
+      //display states
+      display: 'home',
     }
     //bind here:
     this.createDeck = this.createDeck.bind(this);
@@ -28,6 +30,20 @@ class App extends React.Component {
   //   });
   // }
 
+  //-----------------
+  // Change Display
+  //-----------------
+  displayEdit(){
+
+  }
+
+  displayStudy(){
+     
+  }
+
+  //----------
+  // Events
+  //----------
   handleChange(e){
     this.setState({
       [e.target.name]: e.target.value
@@ -42,8 +58,7 @@ class App extends React.Component {
       deckDescription: this.state.deckDescription,
       likes: 0,
       public: true,
-      displayAddCard: true,
-      //cardsList: {}
+      cards:[],
     }
 
     const dbRef = firebase.database().ref('user/decksList');
@@ -67,7 +82,11 @@ class App extends React.Component {
           {/* smooth scroll down on click */}
           <button>Create your own deck!</button>
           <div>
-            <DecksList />
+            <DecksList 
+              display={this.state.display}
+              // displayEditDeck={this.state.displayEditDeck}
+              // displayStudyDeck={this.state.displayStudyDeck}
+              />
           </div>
         </section>
         <h2>Create a Deck!</h2>

@@ -7,32 +7,36 @@ class CardsList extends React.Component{
     constructor(){
         super();
         this.state = {
-            cardsArray: [
-                { id: 1, front: 'hi', back: 'bye' },
-                { id: 2, front: 'hi2', back: 'bye2' },
-                { id: 3, front: 'hi3', back: 'bye3' }
-            ],
-            currentCard: {}
+            cardsArray: [],
+            currentCard: {
+                cardFront:'',
+                cardBack: '',
+            }
         }
         this.updateCard = this.updateCard.bind(this)
     }
 
     componentWillMount(){
         //firebase
-        //--------------------------------------
-        //how do I pass the deck key into here?
-        //--------------------------------------
-        const dbRefCardsList = firebase.database().ref(`user/decksList/${this.props.deckKey}/cardsList/`);
-        dbRefCardsList.on('value', (snapshop) => {
-            const cardsListSnapshot = snapshop.val();
+        const dbRefCardsList = firebase.database().ref(`user/decksList/${this.props.deckIdKey}/cardsList/`);
+        dbRefCardsList.on('value', (snapshot) => {
+            const cardsListSnapshot = snapshot.val();
+            //clone
+            const cardsArrayClone = [];
+
+            for(let cardKey in cardsListSnapshot){
+                cardsListSnapshot[cardKey].key = cardKey;
+                cardsArrayClone.push(cardsListSnapshot[cardKey]);
+            }
+            console.log(this.getRandomCard(cardsArrayClone))
+            //if there's no cards in the array then just return an empty string
+            const currentCard = this.getRandomCard(cardsArrayClone) || { cardBack: '', cardFront: ''}
+            this.setState({
+                cardsArray: cardsArrayClone,
+                currentCard: currentCard
+            });
         })
-        //setting the cards array/state before render
-        const cardsArrayClone = this.state.cardsArray;
-        this.setState({
-            cardsArray: cardsArrayClone,
-            currentCard: this.getRandomCard(cardsArrayClone)
-        });
-    }
+    };
 
     getRandomCard(cardsArrayClone){
         //return a random card from the cardsArrayClone
@@ -50,9 +54,20 @@ class CardsList extends React.Component{
         return(
             <div>
                 <div>
+                    <ul>
+                        {this.state.cardsArray.map((card) => {
+                            return(
+                                    <Card 
+                                        key={card.key} 
+                                        cardIdKey={card.key}
+                                        front={card.cardFront}
+                                        back={card.cardBack}/>
+                            )
+                        })}
+                    </ul>
                     <Card 
-                        front = {this.state.currentCard.front}
-                        back = {this.state.currentCard.back}/>
+                        front={this.state.currentCard.cardFront}
+                        back={this.state.currentCard.cardBack}/>
                 </div>
                 <DrawButton 
                     drawCard={this.updateCard}/>

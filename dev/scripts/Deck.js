@@ -9,28 +9,33 @@ class Deck extends React.Component{
             displayAddCard: true,
             cardFront: '',
             cardBack: '',
-            cardsArray: []
+            cardsArray: [],
+            //display states, set the state in componentDidMount not in constructor
+            display: 'home',
+            // displayEditDeck: null,
+            // displayStudyDeck: null,
         };
         this.handleChange = this.handleChange.bind(this);
         this.createCard = this.createCard.bind(this);
     }
 
-    // componentDidMount(){
-    //     const dbRef = firebase.database().ref('user/decksList/');
-    // }
+    componentDidMount(){
+        this.setState({
+            display: this.props.display,
+        });       
+    }
+    
 
     handleChange(e){
         this.setState({
             [e.target.name]: e.target.value
         })
+        console.log(this.props.display);
+        
     }
 
     createCard(e, key){
-        e.preventDefault();
-        console.log(e);
-        console.log(key);
-        
-        
+        e.preventDefault();        
         //info that will be set for each card
         const card = {
             cardFront: this.state.cardFront,

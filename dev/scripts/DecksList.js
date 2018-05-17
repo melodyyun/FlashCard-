@@ -1,6 +1,5 @@
 import React from 'react';
 import firebase from 'firebase';
-//import CardsList from './CardsList';
 import Deck from './Deck';
 
 class DecksList extends React.Component{
@@ -13,6 +12,10 @@ class DecksList extends React.Component{
             likes: null,
             displayAddCard: false,
             decksArray: [],
+            //display states, set the state in componentDidMount not in constructor
+            display: 'home',
+            // displayEditDeck: null,
+            // displayStudyDeck: null,
         }
         //bind here
         this.handleDeckClick = this.handleDeckClick.bind(this);
@@ -33,24 +36,20 @@ class DecksList extends React.Component{
                 decksListSnap[deckKey].key = deckKey;
                 tempDecksList.push(decksListSnap[deckKey]);
             }
-            //--------------------------------------------
-            //why is this console.logging when I type???
-            //--------------------------------------------
-            //console.log(tempDecksList);
-
             //-------------------------------
             //filter public and private here
             //-------------------------------
 
             this.setState({
-                decksArray: tempDecksList
+                decksArray: tempDecksList,
+                display: this.props.display,
+                //display states
+                // displayEditDeck: this.props.displayEditDeck,
+                // displayStudyDeck: this.props.displayStudyDeck,
             })
+            // console.log('incoming to DecksList:',this.props.displayEditDeck);
+            // console.log('incoming to DecksList:',this.props.displayStudyDeck);
         });
-
-        // const dbRef2 = firebase.database().ref('user/decksList/deck1/cardsList');
-        // dbRef.on('value', (snapshot) => {
-        //     const dbSnapshot = snapshot.val();
-        // });
     }
 
     handleDeckClick(){
@@ -76,6 +75,8 @@ class DecksList extends React.Component{
                         deckDescription = {deck.deckDescription}
                         deckLikes = {deck.likes}
                         deleteDeck = {this.deleteDeck}
+                        //passing on display states
+                        display={this.state.display}
                         />
                     )
                 })}
@@ -85,3 +86,6 @@ class DecksList extends React.Component{
 }
 
 export default DecksList;
+
+// displayEditDeck={this.state.displayEditDeck}
+// displayStudyDeck={this.state.displayStudyDeck}
