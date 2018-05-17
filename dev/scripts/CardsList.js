@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase';
 import Card from './Card';
 import DrawButton from './DrawButton'
 
@@ -17,6 +18,15 @@ class CardsList extends React.Component{
     }
 
     componentWillMount(){
+        //firebase
+        //--------------------------------------
+        //how do I pass the deck key into here?
+        //--------------------------------------
+        const dbRefCardsList = firebase.database().ref(`user/decksList/${this.props.deckKey}/cardsList/`);
+        dbRefCardsList.on('value', (snapshop) => {
+            const cardsListSnapshot = snapshop.val();
+        })
+        //setting the cards array/state before render
         const cardsArrayClone = this.state.cardsArray;
         this.setState({
             cardsArray: cardsArrayClone,
@@ -52,49 +62,3 @@ class CardsList extends React.Component{
 };
 
 export default CardsList;
-
-// import React from 'react';
-// import Card from './Card'
-
-// class CardsList extends React.Component{
-//     constructor(){
-//         super();
-
-//         this.state = {
-//             cardsArray: [
-//                 { id: 1, front:'hi', back:'bye' },
-//                 { id: 2, front: 'hi', back: 'bye' }
-//             ],
-//             currentCard: {}
-//         }
-//         this.getRandomCard = this.getRandomCard.bind(this);
-//     }
-
-//     componentWillMount(){
-//         const cardsArrayClone = this.state.cardsArray;
-//         console.log(cardsArrayClone);
-        
-
-//         this.setState({
-//             cardsArray: cardsArrayClone,
-//             currentCard: this.getRandomCard(cardsArrayClone)
-//         })
-//         //console.log(this.state.currentCard);
-//     }
-
-//     getRandomCard(cardsArrayClone){
-//         let card = cardsArrayClone[Math.floor(Math.random() * cardsArrayClone.length)]
-//         //console.log(card);
-//     }
-
-//     render(){
-//         return(
-//             <Card 
-//                 front={this.state.currentCard.front}
-//                 back={this.state.currentCard.back}/>
-//         )
-//     }
-// }
-
-
-// export default CardsList;

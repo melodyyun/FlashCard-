@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
-import CardsList from './CardsList';
+//import CardsList from './CardsList';
+import Deck from './Deck';
 
 class DecksList extends React.Component{
     constructor(){
@@ -9,6 +10,8 @@ class DecksList extends React.Component{
             deckName: '',
             deckDescription: '',
             public: true,
+            likes: null,
+            displayAddCard: false,
             decksArray: [],
         }
         //bind here
@@ -57,7 +60,7 @@ class DecksList extends React.Component{
 
     deleteDeck(deckKey){
         console.log(deckKey);
-        //firebase.database().ref(`user/decksList/${deckKey}`).remove();
+        firebase.database().ref(`user/decksList/${deckKey}`).remove();
     }
 
     render(){
@@ -65,14 +68,15 @@ class DecksList extends React.Component{
             <ul>
                 {this.state.decksArray.map((deck) => {
                     return (
-                        <div key = {deck.key} onClick = {this.handleDeckClick}>
-                            <h4>{deck.deckName}</h4>
-                            <p>{deck.deckDescription}</p>
-                            <p>{deck.likes}</p>
-                            <button>review</button>
-                            <button onClick={() => this.deleteDeck(deck.key)}>❌</button>
-                            <button>edit</button>
-                        </div>
+                        <Deck 
+                        key={deck.key}
+                        DeckIdKey = {deck.key}
+                        handleDeckClick = {this.handleDeckClick}
+                        deckName = {deck.deckName}
+                        deckDescription = {deck.deckDescription}
+                        deckLikes = {deck.likes}
+                        deleteDeck = {this.deleteDeck}
+                        />
                     )
                 })}
             </ul>

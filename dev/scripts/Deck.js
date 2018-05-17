@@ -1,73 +1,82 @@
-// import React from 'react';
-// import firebase from 'firebase';
-// import CardsList from './CardsList';
+import React from 'react';
+import firebase from 'firebase';
+import CardsList from './CardsList';
 
-// class Deck extends React.Component {
-//     constructor() {
-//         super();
-//         this.state = {
-//             deckName: '',
-//             deckDescription: '',
-//             public: true,
-//             likes: null,
-//             decksArray: [],
-//             cardsArray: [],
-//         }
-//         //bind here
-//         this.handleDeckClick = this.handleDeckClick.bind(this);
-//     };
+class Deck extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            displayAddCard: true,
+            cardFront: '',
+            cardBack: '',
+            cardsArray: []
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.createCard = this.createCard.bind(this);
+    }
 
-//     componentDidMount() {
-//         const dbRef = firebase.database().ref('user/decksList');
-//         dbRef.on('value', (snapshot) => {
-//             const decksListSnap = snapshot.val();
-//             //clone
-//             const tempDecksList = [];
-//             //loop obj to push into clone array
-//             for (let deckKey in decksListSnap) {
-//                 // console.log(deckKey);
-//                 // console.log(decksListSnap[deckKey]);
-//                 tempDecksList.push(decksListSnap[deckKey]);
-//             }
-//             console.log(tempDecksList);
-//             //-------------------------------
-//             //filter public and private here
-//             //-------------------------------
+    // componentDidMount(){
+    //     const dbRef = firebase.database().ref('user/decksList/');
+    // }
 
-//             this.setState({
-//                 decksArray: tempDecksList
-//             })
-//         });
+    handleChange(e){
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
 
-//         // const dbRef2 = firebase.database().ref('user/decksList/deck1/cardsList');
-//         // dbRef.on('value', (snapshot) => {
-//         //     const dbSnapshot = snapshot.val();
-//         // });
-//     }
+    createCard(e, key){
+        e.preventDefault();
+        console.log(e);
+        console.log(key);
+        
+        
+        //info that will be set for each card
+        const card = {
+            cardFront: this.state.cardFront,
+            cardBack: this.state.cardBack
+        }
 
-//     handleDeckClick() {
-//         //show two buttons edit or study
+        const dbRefDeck = firebase.database().ref(`user/decksList/${key}/cardsList`);
+        dbRefDeck.push(card);
 
-//     }
+        this.setState({
+            cardFront: '',
+            cardBack: ''
+        })
+    }
 
-//     render() {
-//         return (
-//             <ul>
-//                 {this.state.decksArray.map((deck) => {
-//                     return (
-//                         <div onClick={this.handleDeckClick}>
-//                             <h4>{deck.deckName}</h4>
-//                             <p>{deck.deckDescription}</p>
-//                             <p>{deck.likes}</p>
-//                             <button>review</button>
-//                             <button>❌</button>
-//                             <button>edit</button>
-//                         </div>
-//                     )
-//                 })}
-//             </ul>
-//         )
-//     };
-// }
+    render(){
+        return (
+            <div onClick={this.handleDeckClick}>
+                <div>
+                    <h4>{this.props.deckName}</h4>
+                    <p>{this.props.deckDescription}</p>
+                    <p>{this.props.likes}</p>
+                    <button>review</button>
+                    <button onClick={() => this.props.deleteDeck(this.props.DeckIdKey)}>❌</button>
+                    <button>edit</button>
+                </div>
+                <div>
+                    <form action="" onSubmit={(e)=> this.createCard(e, this.props.DeckIdKey)}>
+                        <input type="text"
+                            name="cardFront"
+                            placeholder="Front of card"
+                            value={this.state.cardFront}
+                            onChange={this.handleChange} required />
+                        <input type="text"
+                            name="cardBack"
+                            placeholder="Back of card"
+                            value={this.state.cardBack}
+                            onChange={this.handleChange} required />
+                        <input type="submit" />
+                    </form>
+                </div>
+                <CardsList
+                    deckIdKey={this.props.DeckIdKey} />
+            </div>
+        )
+    }
+}
 
-// export default Deck;
+export default Deck;

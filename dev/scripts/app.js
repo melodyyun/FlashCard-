@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import firebase from 'firebase';
 import DecksList from './DecksList';
-import CardsList from './CardsList';
 import {firebaseConfig} from './firebase/firebase-config';
 
 // Initialize Firebase
@@ -22,12 +21,12 @@ class App extends React.Component {
     this.createDeck = this.createDeck.bind(this);
   }
 
-  componentDidMount(){
-    const dbRef = firebase.database().ref('user/decksList');
-    dbRef.on('value', (snapshot) => {
-      const dbSnapshot = snapshot.val();
-    });
-  }
+  // componentDidMount(){
+  //   const dbRef = firebase.database().ref('user/decksList');
+  //   dbRef.on('value', (snapshot) => {
+  //     const dbSnapshot = snapshot.val();
+  //   });
+  // }
 
   handleChange(e){
     this.setState({
@@ -37,11 +36,14 @@ class App extends React.Component {
 
   createDeck(e) {
     e.preventDefault();
+    //info that will be set for each Deck
     const deck = {
       deckName: this.state.deckName,
       deckDescription: this.state.deckDescription,
       likes: 0,
       public: true,
+      displayAddCard: true,
+      //cardsList: {}
     }
 
     const dbRef = firebase.database().ref('user/decksList');
@@ -84,7 +86,6 @@ class App extends React.Component {
             <input type="submit"/>
           </form>
         </div>
-        <CardsList />
       </div>
     )
   }
