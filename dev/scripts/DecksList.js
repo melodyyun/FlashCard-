@@ -14,8 +14,6 @@ class DecksList extends React.Component{
             decksArray: [],
             //display states, set the state in componentDidMount not in constructor
             display: 'home',
-            // displayEditDeck: null,
-            // displayStudyDeck: null,
         }
         //bind here
         this.handleDeckClick = this.handleDeckClick.bind(this);
@@ -58,7 +56,6 @@ class DecksList extends React.Component{
     }
 
     deleteDeck(deckKey){
-        console.log(deckKey);
         firebase.database().ref(`user/decksList/${deckKey}`).remove();
     }
 
@@ -77,6 +74,8 @@ class DecksList extends React.Component{
                         deleteDeck = {this.deleteDeck}
                         //passing on display states
                         display={this.state.display}
+                        // functions to change display state
+                        changeDisplay={this.props.changeDisplay}
                         />
                     )
                 })}

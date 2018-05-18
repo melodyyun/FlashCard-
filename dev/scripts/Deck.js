@@ -12,8 +12,7 @@ class Deck extends React.Component{
             cardsArray: [],
             //display states, set the state in componentDidMount not in constructor
             display: 'home',
-            // displayEditDeck: null,
-            // displayStudyDeck: null,
+            selectedDeckId: ''
         };
         this.handleChange = this.handleChange.bind(this);
         this.createCard = this.createCard.bind(this);
@@ -30,8 +29,6 @@ class Deck extends React.Component{
         this.setState({
             [e.target.name]: e.target.value
         })
-        console.log(this.props.display);
-        
     }
 
     createCard(e, key){
@@ -47,7 +44,8 @@ class Deck extends React.Component{
 
         this.setState({
             cardFront: '',
-            cardBack: ''
+            cardBack: '',
+            selectedDeckId: this.props.DeckIdKey
         })
     }
 
@@ -58,9 +56,9 @@ class Deck extends React.Component{
                     <h4>{this.props.deckName}</h4>
                     <p>{this.props.deckDescription}</p>
                     <p>{this.props.likes}</p>
-                    <button>review</button>
+                    <button name="study" value={this.props.DeckIdKey} onClick={(e) => this.props.changeDisplay(e)}>Study</button>
                     <button onClick={() => this.props.deleteDeck(this.props.DeckIdKey)}>❌</button>
-                    <button>edit</button>
+                    <button name="edit" value={this.props.DeckIdKey} onClick={(e) => this.props.changeDisplay(e)}>edit</button>
                 </div>
                 <div>
                     <form action="" onSubmit={(e)=> this.createCard(e, this.props.DeckIdKey)}>
@@ -77,6 +75,7 @@ class Deck extends React.Component{
                         <input type="submit" />
                     </form>
                 </div>
+                
                 <CardsList
                     deckIdKey={this.props.DeckIdKey} />
             </div>

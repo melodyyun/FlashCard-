@@ -2,6 +2,7 @@ import React from 'react';
 import firebase from 'firebase';
 import Card from './Card';
 import DrawButton from './DrawButton'
+import DeleteCardButton from './DeleteCardButton'
 
 class CardsList extends React.Component{
     constructor(){
@@ -13,7 +14,8 @@ class CardsList extends React.Component{
                 cardBack: '',
             }
         }
-        this.updateCard = this.updateCard.bind(this)
+        this.updateCard = this.updateCard.bind(this);
+        this.deleteCard = this.deleteCard.bind(this);
     }
 
     componentWillMount(){
@@ -28,7 +30,6 @@ class CardsList extends React.Component{
                 cardsListSnapshot[cardKey].key = cardKey;
                 cardsArrayClone.push(cardsListSnapshot[cardKey]);
             }
-            console.log(this.getRandomCard(cardsArrayClone))
             //if there's no cards in the array then just return an empty string
             const currentCard = this.getRandomCard(cardsArrayClone) || { cardBack: '', cardFront: ''}
             this.setState({
@@ -50,25 +51,32 @@ class CardsList extends React.Component{
         })
     }
 
+    deleteCard(cardKey){
+        console.log('card key:',cardKey);
+        firebase.database().ref(`user/decksList/${this.props.deckIdKey}/cardsList/${cardKey}`).remove();
+    }
+
     render(){
         return(
             <div>
-                <div>
-                    <ul>
-                        {this.state.cardsArray.map((card) => {
-                            return(
-                                    <Card 
-                                        key={card.key} 
-                                        cardIdKey={card.key}
-                                        front={card.cardFront}
-                                        back={card.cardBack}/>
-                            )
-                        })}
-                    </ul>
-                    <Card 
-                        front={this.state.currentCard.cardFront}
-                        back={this.state.currentCard.cardBack}/>
-                </div>
+                <ul>
+                    {this.state.cardsArray.map((card) => {
+                        return(
+                            <div key={card.key} >
+                                <DeleteCardButton 
+                                    cardIdKey={card.key}
+                                    deleteCard={this.deleteCard}/>
+                                <Card 
+                                    cardIdKey={card.key}
+                                    front={card.cardFront}
+                                    back={card.cardBack}/>
+                            </div>
+                        )
+                    })}
+                </ul>
+                <Card 
+                    front={this.state.currentCard.cardFront}
+                    back={this.state.currentCard.cardBack}/>
                 <DrawButton 
                     drawCard={this.updateCard}/>
             </div>
