@@ -1,0 +1,153 @@
+// .wrapper{
+//     width: 900px;
+//     margin: 0 auto;
+// }
+//-------------------------------
+// .cardContainer{
+//     cursor: pointer;
+//     height: 300px;
+//     width: 250px;
+//     position: relative;
+//     perspective: 900px;
+//     margin: auto;
+// }
+
+// .card{
+//     padding: 2rem;
+//     height: 100%;
+//     width: 100%;
+//     position: absolute;
+//     transform-style: preserve-3d;
+//     transition: all 1s ease-in-out;
+//     //box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+// }
+
+// .card:hover{
+//     transform: rotateY(180deg);
+// }
+
+// .card .front{
+//     height: 100%;
+//     width: 100%;
+//     backface-visibility: hidden;
+//     border-radius: 5px;
+//     position: absolute;
+//     overflow: hidden;
+//     text-align: center;
+//     background-color: wheat;
+// }
+
+// .card .back{
+//     background: whitesmoke;
+//     text-align: center;
+//     transform: rotateY(180deg);
+// }
+//------------------------------------
+// .card-container {
+//   cursor: pointer;
+//   height: 300px;
+//   perspective: 600;
+//   position: relative;
+//   width: 250px;
+//   margin: 2rem auto;
+// }
+// .card {
+//   height: 100%;
+//   position: absolute;
+//   transform-style: preserve-3d;
+//   transition: all 0.4s ease-in-out;
+//   width: 100%;
+//   border-radius: 5px;
+// }
+// .card:hover {
+//   transform: rotateY(180deg);
+// }
+// .card .front {
+//   backface-visibility: hidden;
+//   height: 100%;
+//   position: absolute;
+//   overflow: hidden;
+//   width: 100%;
+//   background: #eaeaed;
+//   text-align: center;
+//   padding: 20px;
+// }
+// .card .back {
+//   background: #eaeaed;
+//   height: 100%;
+//   width: 100%;
+//   text-align: center;
+//   transform: rotateY(180deg);
+//   padding: 20px;
+// }
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000px;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    height: 300px;
+    width: 250px;
+    margin: auto;
+}
+	/*  UPDATED! flip the pane when hovered */
+	.flip-container:hover .back {
+		transform: rotateY(0deg);
+	}
+	.flip-container:hover .front {
+	    transform: rotateY(180deg);
+	}
+
+.flip-container, .front, .back {
+	width: 320px;
+	height: 480px;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/*  UPDATED! front pane, placed above back */
+.front {
+	z-index: 2;
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(-180deg);
+}
+
+/* 
+	Some vertical flip updates 
+*/
+.vertical.flip-container {
+	position: relative;
+}
+
+	.vertical .back {
+		transform: rotateX(180deg);
+	}
+
+	.vertical.flip-container:hover .back {
+	    transform: rotateX(0deg);
+	}
+
+	.vertical.flip-container:hover .front {
+	    transform: rotateX(180deg);
+	}
