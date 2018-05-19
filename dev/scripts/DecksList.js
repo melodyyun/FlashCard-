@@ -13,10 +13,9 @@ class DecksList extends React.Component{
             displayAddCard: false,
             decksArray: [],
             //display states, set the state in componentDidMount not in constructor
-            display: 'home',
+            display: '',
         }
         //bind here
-        this.handleDeckClick = this.handleDeckClick.bind(this);
         this.deleteDeck = this.deleteDeck.bind(this);
     };
 
@@ -50,11 +49,6 @@ class DecksList extends React.Component{
         });
     }
 
-    handleDeckClick(){
-        //show two buttons edit or study
-
-    }
-
     deleteDeck(deckKey){
         firebase.database().ref(`user/decksList/${deckKey}`).remove();
     }
@@ -85,6 +79,3 @@ class DecksList extends React.Component{
 }
 
 export default DecksList;
-
-// displayEditDeck={this.state.displayEditDeck}
-// displayStudyDeck={this.state.displayStudyDeck}

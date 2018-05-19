@@ -8,19 +8,31 @@ class CardsList extends React.Component{
     constructor(){
         super();
         this.state = {
+            displayAddCard: true,
+            cardFront: '',
+            cardBack: '',
+            selectedDeckId: '',
             cardsArray: [],
-            currentCard: {
-                cardFront:'',
-                cardBack: '',
-            }
+            // currentCard: {
+            //     cardFront: '',
+            //     cardBack: '',
+            // }
         }
         this.updateCard = this.updateCard.bind(this);
         this.deleteCard = this.deleteCard.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.createCard = this.createCard.bind(this);
     }
 
+    // componentWillReceiveProps(){
+    //     console.log('componentWillReceiveProps:',this.props.selectedDeckId);
+    // }
     componentWillMount(){
+        
         //firebase
-        const dbRefCardsList = firebase.database().ref(`user/decksList/${this.props.deckIdKey}/cardsList/`);
+        // const dbRefCardsList = firebase.database().ref(`user/decksList/${this.props.deckIdKey}/cardsList/`);
+        
+        const dbRefCardsList = firebase.database().ref(`user/decksList/${this.props.selectedDeckId}/cardsList/`);
         dbRefCardsList.on('value', (snapshot) => {
             const cardsListSnapshot = snapshot.val();
             //clone
@@ -30,15 +42,19 @@ class CardsList extends React.Component{
                 cardsListSnapshot[cardKey].key = cardKey;
                 cardsArrayClone.push(cardsListSnapshot[cardKey]);
             }
+            
             //if there's no cards in the array then just return an empty string
-            const currentCard = this.getRandomCard(cardsArrayClone) || { cardBack: '', cardFront: ''}
+            // const currentCard = this.getRandomCard(cardsArrayClone) || { cardBack: '', cardFront: ''}
             this.setState({
                 cardsArray: cardsArrayClone,
-                currentCard: currentCard
+                // currentCard: currentCard
             });
         })
     };
 
+    //----------------------------------------
+    //Generating random card from cards array
+    //----------------------------------------
     getRandomCard(cardsArrayClone){
         //return a random card from the cardsArrayClone
         return cardsArrayClone[Math.floor(Math.random() * cardsArrayClone.length)];
@@ -51,14 +67,58 @@ class CardsList extends React.Component{
         })
     }
 
+    //--------------
+    //Card deletion
+    //--------------
+
     deleteCard(cardKey){
-        console.log('card key:',cardKey);
-        firebase.database().ref(`user/decksList/${this.props.deckIdKey}/cardsList/${cardKey}`).remove();
+        firebase.database().ref(`user/decksList/${this.props.selectedDeckId}/cardsList/${cardKey}`).remove();
+    }
+
+    //--------------
+    //Card creation
+    //--------------
+    handleChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    createCard(e, key) {
+        e.preventDefault();
+        //info that will be set for each card
+        const card = {
+            cardFront: this.state.cardFront,
+            cardBack: this.state.cardBack
+        }
+
+        const dbRefDeck = firebase.database().ref(`user/decksList/${key}/cardsList`);
+        dbRefDeck.push(card);
+
+        this.setState({
+            cardFront: '',
+            cardBack: '',
+            selectedDeckId: this.props.DeckIdKey
+        })
     }
 
     render(){
         return(
             <div>
+                {/* create card */}
+                <form action="" onSubmit={(e) => this.createCard(e, this.props.selectedDeckId)}>
+                    <input type="text"
+                        name="cardFront"
+                        placeholder="Front of card"
+                        value={this.state.cardFront}
+                        onChange={this.handleChange} required />
+                    <input type="text"
+                        name="cardBack"
+                        placeholder="Back of card"
+                        value={this.state.cardBack}
+                        onChange={this.handleChange} required />
+                    <input type="submit" />
+                </form>
                 <ul>
                     {this.state.cardsArray.map((card) => {
                         return(
@@ -74,11 +134,11 @@ class CardsList extends React.Component{
                         )
                     })}
                 </ul>
-                <Card 
+                {/* <Card 
                     front={this.state.currentCard.cardFront}
                     back={this.state.currentCard.cardBack}/>
                 <DrawButton 
-                    drawCard={this.updateCard}/>
+                    drawCard={this.updateCard}/> */}
             </div>
         )
     }

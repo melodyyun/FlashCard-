@@ -54,8 +54,8 @@ class App extends React.Component {
       selectedDeckId: e.target.value,
       display: e.target.name
     },() => {
-      console.log(this.state.display);
-      console.log(this.state.selectedDeckId);
+      // console.log(this.state.display);
+      // console.log(this.state.selectedDeckId);
     });
   }
 

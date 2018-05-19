@@ -12,7 +12,8 @@ class EditCardsPage extends React.Component {
 
     componentWillMount() {
         this.setState({
-            display: this.props.selectedDeckId,
+            display: this.props.changeDisplay,
+            selectedDeckId: this.props.selectedDeckId,
         })
     }
 
