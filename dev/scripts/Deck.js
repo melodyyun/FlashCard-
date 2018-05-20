@@ -28,9 +28,6 @@ class Deck extends React.Component{
                     <button onClick={() => this.props.deleteDeck(this.props.DeckIdKey)}>❌</button>
                     <button name="edit" value={this.props.DeckIdKey} onClick={(e) => this.props.changeDisplay(e)}>edit</button>
                 </div>
-                
-                {/* <CardsList
-                    deckIdKey={this.props.DeckIdKey} /> */}
             </div>
         )
     }

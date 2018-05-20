@@ -3,6 +3,16 @@ import firebase from 'firebase';
 import Card from './Card';
 import DrawButton from './DrawButton'
 import DeleteCardButton from './DeleteCardButton'
+import styled from 'styled-components';
+
+const CList = styled.ul`
+    display: flex;
+    flex-flow: row wrap;
+`
+
+const Li = styled.li`
+    width: 350px;
+`
 
 class CardsList extends React.Component{
     constructor(){
@@ -13,10 +23,6 @@ class CardsList extends React.Component{
             cardBack: '',
             selectedDeckId: '',
             cardsArray: [],
-            // currentCard: {
-            //     cardFront: '',
-            //     cardBack: '',
-            // }
         }
         this.updateCard = this.updateCard.bind(this);
         this.deleteCard = this.deleteCard.bind(this);
@@ -24,14 +30,7 @@ class CardsList extends React.Component{
         this.createCard = this.createCard.bind(this);
     }
 
-    // componentWillReceiveProps(){
-    //     console.log('componentWillReceiveProps:',this.props.selectedDeckId);
-    // }
     componentWillMount(){
-        
-        //firebase
-        // const dbRefCardsList = firebase.database().ref(`user/decksList/${this.props.deckIdKey}/cardsList/`);
-        
         const dbRefCardsList = firebase.database().ref(`user/decksList/${this.props.selectedDeckId}/cardsList/`);
         dbRefCardsList.on('value', (snapshot) => {
             const cardsListSnapshot = snapshot.val();
@@ -42,12 +41,9 @@ class CardsList extends React.Component{
                 cardsListSnapshot[cardKey].key = cardKey;
                 cardsArrayClone.push(cardsListSnapshot[cardKey]);
             }
-            
-            //if there's no cards in the array then just return an empty string
-            // const currentCard = this.getRandomCard(cardsArrayClone) || { cardBack: '', cardFront: ''}
+
             this.setState({
                 cardsArray: cardsArrayClone,
-                // currentCard: currentCard
             });
         })
     };
@@ -122,7 +118,7 @@ class CardsList extends React.Component{
                 <ul>
                     {this.state.cardsArray.map((card) => {
                         return(
-                            <div key={card.key} >
+                            <Li key={card.key} className="flex relative">
                                 <DeleteCardButton 
                                     cardIdKey={card.key}
                                     deleteCard={this.deleteCard}/>
@@ -130,15 +126,10 @@ class CardsList extends React.Component{
                                     cardIdKey={card.key}
                                     front={card.cardFront}
                                     back={card.cardBack}/>
-                            </div>
+                            </Li>
                         )
                     })}
                 </ul>
-                {/* <Card 
-                    front={this.state.currentCard.cardFront}
-                    back={this.state.currentCard.cardBack}/>
-                <DrawButton 
-                    drawCard={this.updateCard}/> */}
             </div>
         )
     }
