@@ -70,7 +70,7 @@ $transparentBlack: rgba(58, 58, 58, 0.2);
 
 //grid variables
 
-$grid-col-3: repeat(3, minmax(1fr, 100px));
+$grid-col-3: repeat(3, 1fr);
 $grid-col-1: 1fr;
 
 

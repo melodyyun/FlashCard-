@@ -3,14 +3,23 @@ import ReactDOM from 'react-dom';
 import firebase from 'firebase';
 import DecksList from './DecksList';
 import {firebaseConfig} from './firebase/firebase-config';
+// import ui from 'firebaseui'
 import StudyCardsPage from './StudyCardsPage';
 import EditCardsPage from './EditCardsPage';
 import styled from 'styled-components';
+import Deck from './Deck';
 
-// const CList = styled.ul`
-//     display: flex;
-//     flex-flow: row wrap;
-// `
+
+const DeckContainer = styled.section`
+    grid-column: 2/4;
+    padding: 2rem;
+    background-color: $neutral;
+`
+
+const DeckList = styled.li`
+
+`
+
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -59,7 +68,7 @@ class App extends React.Component {
       deckName: this.state.deckName,
       deckDescription: this.state.deckDescription,
       likes: 0,
-      public: true,
+      delete: true,
       cards:[],
     }
 
@@ -105,7 +114,7 @@ class App extends React.Component {
                     <input className="btn" type="submit" />
                   </form>
                 </div>
-                <section>
+                <DeckContainer>
                   <h3>Current Decks</h3>
                   <div>
                     <DecksList
@@ -114,7 +123,7 @@ class App extends React.Component {
                       changeDisplay={this.changeDisplay}
                     />
                   </div>
-                </section>
+                </DeckContainer>
             </div>
           </div>
         </section>

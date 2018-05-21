@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import CardsList from './CardsList';
+import { log } from 'util';
 
 class Deck extends React.Component{
     constructor(){
@@ -23,10 +24,16 @@ class Deck extends React.Component{
                 <div>
                     <h4>{this.props.deckName}</h4>
                     <p>{this.props.deckDescription}</p>
-                    <p>{this.props.likes}</p>
-                    <button name="study" value={this.props.DeckIdKey} onClick={(e) => this.props.changeDisplay(e)}>Study</button>
-                    <button onClick={() => this.props.deleteDeck(this.props.DeckIdKey)}>❌</button>
-                    <button name="edit" value={this.props.DeckIdKey} onClick={(e) => this.props.changeDisplay(e)}>edit</button>
+                    <p>{this.props.deckLikes}<i className="fas fa-heart"></i></p>
+                    {/* delete button */}
+                    {console.log(this.props.deckDelete)}
+                    {this.props.deckDelete === true ?
+                        <button onClick={() => this.props.deleteDeck(this.props.DeckIdKey)}><i className="fas fa-times"></i></button>
+                        : null
+                    }
+
+                    <button name="study" value={this.props.DeckIdKey} onClick={(e) => this.props.changeDisplay(e)}><i className="fab fa-leanpub"></i></button>
+                    <button name="edit" value={this.props.DeckIdKey} onClick={(e) => this.props.changeDisplay(e)}><i className="fas fa-edit"></i></button>
                 </div>
             </div>
         )

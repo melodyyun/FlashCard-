@@ -20,8 +20,8 @@ class EditCardsPage extends React.Component {
     render(){
         return(
             <div>
-                <button name="home" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Home</button>
-                <button name="study" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Study</button>
+                <button name="home" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}><i className="fas fa-home"></i></button>
+                <button name="study" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}><i className="fab fa-leanpub"></i></button>
                 <CardsList 
                 selectedDeckId ={this.state.selectedDeckId}/>
             </div>

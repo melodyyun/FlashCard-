@@ -57,6 +57,7 @@ class DecksList extends React.Component{
         return(
             <ul>
                 {this.state.decksArray.map((deck) => {
+                    {console.log(deck.deckName, deck.likes, deck.delete)}
                     return (
                         <Deck 
                         key={deck.key}
@@ -65,6 +66,7 @@ class DecksList extends React.Component{
                         deckName = {deck.deckName}
                         deckDescription = {deck.deckDescription}
                         deckLikes = {deck.likes}
+                        deckDelete = {deck.delete}
                         deleteDeck = {this.deleteDeck}
                         //passing on display states
                         display={this.state.display}
