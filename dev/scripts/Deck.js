@@ -25,15 +25,14 @@ class Deck extends React.Component{
                     <h4>{this.props.deckName}</h4>
                     <p>{this.props.deckDescription}</p>
                     <p>{this.props.deckLikes}<i className="fas fa-heart"></i></p>
+
                     {/* delete button */}
-                    {console.log(this.props.deckDelete)}
                     {this.props.deckDelete === true ?
                         <button onClick={() => this.props.deleteDeck(this.props.DeckIdKey)}><i className="fas fa-times"></i></button>
                         : null
                     }
-
-                    <button name="study" value={this.props.DeckIdKey} onClick={(e) => this.props.changeDisplay(e)}><i className="fab fa-leanpub"></i></button>
-                    <button name="edit" value={this.props.DeckIdKey} onClick={(e) => this.props.changeDisplay(e)}><i className="fas fa-edit"></i></button>
+                    <button name="study" value={this.props.DeckIdKey} onClick={(e) => this.props.changeDisplay(e)}>Study</button>
+                    <button name="edit" value={this.props.DeckIdKey} onClick={(e) => this.props.changeDisplay(e)}>Edit</button>
                 </div>
             </div>
         )

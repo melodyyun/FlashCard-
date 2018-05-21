@@ -27,8 +27,6 @@ class DecksList extends React.Component{
             const tempDecksList = [];
             //loop obj to push into clone array
             for(let deckKey in decksListSnap){
-                // console.log(deckKey);
-                // console.log(decksListSnap[deckKey]);
                 //saving the unique key for later...
                 decksListSnap[deckKey].key = deckKey;
                 tempDecksList.push(decksListSnap[deckKey]);
@@ -40,12 +38,7 @@ class DecksList extends React.Component{
             this.setState({
                 decksArray: tempDecksList,
                 display: this.props.display,
-                //display states
-                // displayEditDeck: this.props.displayEditDeck,
-                // displayStudyDeck: this.props.displayStudyDeck,
             })
-            // console.log('incoming to DecksList:',this.props.displayEditDeck);
-            // console.log('incoming to DecksList:',this.props.displayStudyDeck);
         });
     }
 
@@ -57,7 +50,6 @@ class DecksList extends React.Component{
         return(
             <ul>
                 {this.state.decksArray.map((deck) => {
-                    {console.log(deck.deckName, deck.likes, deck.delete)}
                     return (
                         <Deck 
                         key={deck.key}
