@@ -18,7 +18,7 @@ const Hero = styled.div`
   z-index: 1;
   background: #EFEFEF;
   width: 100%;
-  min-height: 40vh;
+  min-height: 60vh;
 `
 
 // Initialize Firebase
@@ -32,7 +32,9 @@ class App extends React.Component {
       deckDescription: '',
       likes: 0,
       display: 'home',
-      selectedDeckId:''
+      selectedDeckId:'',
+      selectedDeckName: '',
+      selectedDeckDescription: '',
     }
     this.createDeck = this.createDeck.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -109,7 +111,7 @@ class App extends React.Component {
                   placeholder="Field of study"
                   value={this.state.deckDescription}
                   onChange={this.handleChange} required />
-                <input className="btn" type="submit" />
+                <input className="btn primary" type="submit" />
               </form>
             </div>
           </div>

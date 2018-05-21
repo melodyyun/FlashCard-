@@ -8,8 +8,8 @@ class StudyCardsPage extends React.Component {
         super()
         this.state = {
             selectedDeckId:'',
-            // cardFront: '',
-            // cardBack: '',
+            selectedDeckName: '',
+            selectedDeckDescription: '',
             display: '',
             cardsArray: [],
             cardIdKey: '',
@@ -22,6 +22,23 @@ class StudyCardsPage extends React.Component {
     }
 
     componentWillMount() {
+        const dbRefDeck = firebase.database().ref(`user/decksList/${this.props.selectedDeckId}`)
+
+        dbRefDeck.on('value', gotData, errData);
+
+        function gotData(data){ 
+            const snapshot = data.val();
+            this.setState({
+                selectedDeckName: snapshot.deckName,
+                selectedDeckDescription: snapshot.deckDescription
+            })
+        }
+
+        function errData(err) {
+            console.log('Error!');
+            console.log(err);
+            
+        }
 
         const dbRefCardsList = firebase.database().ref(`user/decksList/${this.props.selectedDeckId}/cardsList/`);
         dbRefCardsList.on('value', (snapshot) => {
@@ -70,8 +87,8 @@ class StudyCardsPage extends React.Component {
         return (
             <div>
                 <p>this is the study page</p>
-                <button name="home" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Home</button>
-                <button name="edit" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Edit</button>
+                <button className="btn" name="home" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Home</button>
+                <button className="btn" name="edit" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Edit</button>
                 <Card 
                     front = {this.state.currentCard.cardFront}
                     back = {this.state.currentCard.cardBack}

@@ -13,6 +13,11 @@
     font-variation-settings: 'wght' 70.164, 'wdth' 100.6799;
 }
 
+html body{
+    //overflow: hidden;
+    background: $neutral;
+}
+
 //-----------
 //Typography
 //-----------
@@ -31,11 +36,12 @@ h3{
 }
 
 h4{
-    @include font(20, 80 ,100);
+    @include font(25, 80 ,100);
+    margin: 0;
 }
 
 p{
-    @include font(16, 80 ,100);
+    @include font(20, 80 ,100);
 }
 
 //--------
@@ -47,6 +53,35 @@ p{
     padding: 1rem 2rem;
 }
 
+.primary{
+    background: $watermelon;
+    color: $white;
+}
+
+.secondary{
+    background: darken($sky, 10%);
+    color: $white;
+}
+
+.delete{
+    height: 35px;
+    width: 35px;
+    position: absolute;
+    background: transparent;
+    span{
+        position: relative;
+        font-size: 2rem;
+    }
+    .fa-times{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        path{
+            color: $watermelon;
+        }
+    }
+}
 //------
 //Input
 //------
@@ -94,8 +129,22 @@ input[type=text]{
 
 ul{
     padding-left: 0;
-    display: flex;
-    flex-flow: row wrap;
+
+    @include grid($grid-col-5);
+    @media only screen and (max-width: 1950px) {
+        @include grid($grid-col-4);
+    }
+    @media only screen and (max-width: 1570px) {
+        @include grid($grid-col-3);
+    }
+    @media only screen and (max-width: 1190px) {
+        @include grid($grid-col-2);
+    }
+    @media only screen and (max-width: 620px) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 }
 //----
 //App
@@ -103,9 +152,11 @@ ul{
 
 .hero{
     padding: 1px;
-    height: 60vh;
-    min-height: 400px;
-    background: url(coffee.jpg) no-repeat center center fixed;
+    height: 40vh;
+    min-height: 300px;
+    background: url(coffee.jpg) no-repeat fixed;
+    background-position-x: center;
+    background-position-y: -263px;
     background-size: cover;
     display: flex;
     flex-flow: column wrap; 
@@ -230,8 +281,8 @@ ul{
     transform-style: preserve-3d;
     text-align: center;
     padding: 20px;
-    //background: $neutral;
-    background: url(paper.jpg);
+    background: $white;
+    //background: url(paper.jpg);
     box-shadow: 0 14px 28px $transparentBlack, 0 10px 10px $transparentBlack;
 
 	position: absolute;

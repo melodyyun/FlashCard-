@@ -69,8 +69,10 @@ $transparentBlack: rgba(58, 58, 58, 0.2);
 
 
 //grid variables
-
+$grid-col-5: repeat(5, 1fr);
+$grid-col-4: repeat(4, 1fr);
 $grid-col-3: repeat(3, 1fr);
+$grid-col-2: repeat(2, 1fr);
 $grid-col-1: 1fr;
 
 
@@ -81,5 +83,7 @@ $grid-col-1: 1fr;
     grid-gap: 1rem;
     grid-auto-rows: minmax(10rem auto);
     grid-auto-columns: minmax(10rem 20rem);
+    justify-items: center;
+    align-items: center;
 }
 
