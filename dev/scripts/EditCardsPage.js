@@ -19,7 +19,7 @@ class EditCardsPage extends React.Component {
 
     render(){
         return(
-            <div>
+            <div className="wrapper">
                 <button name="home" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Home</button>
                 <button name="study" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Study</button>
                 <CardsList 

@@ -5,13 +5,10 @@ import DrawButton from './DrawButton'
 import DeleteCardButton from './DeleteCardButton'
 import styled from 'styled-components';
 
-const CList = styled.ul`
-    display: flex;
-    flex-flow: row wrap;
-`
-
 const Li = styled.li`
-    width: 350px;
+    width: 300px;
+    list-style: none;
+    position: relative;
 `
 
 class CardsList extends React.Component{
@@ -118,10 +115,10 @@ class CardsList extends React.Component{
                 <ul>
                     {this.state.cardsArray.map((card) => {
                         return(
-                            <Li key={card.key} className="flex relative">
-                                <DeleteCardButton 
+                            <Li key={card.key}>
+                                <DeleteCardButton
                                     cardIdKey={card.key}
-                                    deleteCard={this.deleteCard}/>
+                                    deleteCard={this.deleteCard} />
                                 <Card 
                                     cardIdKey={card.key}
                                     front={card.cardFront}

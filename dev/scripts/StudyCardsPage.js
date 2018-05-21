@@ -85,7 +85,7 @@ class StudyCardsPage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="wrappers">
                 <p>this is the study page</p>
                 <button className="btn" name="home" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Home</button>
                 <button className="btn" name="edit" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Edit</button>

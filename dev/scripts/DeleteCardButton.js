@@ -1,10 +1,16 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const DeleteB = styled.button`
+    z-index: 3;
+    position: absolute;
+    top: 8%;
+    right: 10%;
+`
 
 const DeleteCardButton = (props) => {
     return (
-        <div>
-            <button onClick={() => props.deleteCard(props.cardIdKey)}><i className="fas fa-times"></i></button>
-        </div>
+        <DeleteB className="btn delete " onClick={() => props.deleteCard(props.cardIdKey)}><i className="fas fa-times"></i></DeleteB>
     )
 }
 
