@@ -10,7 +10,7 @@ const DeleteB = styled.button`
 
 const DeleteCardButton = (props) => {
     return (
-        <DeleteB className="btn delete " onClick={() => props.deleteCard(props.cardIdKey)}><i className="fas fa-times"></i></DeleteB>
+        <DeleteB className="delete " onClick={() => props.deleteCard(props.cardIdKey)}><i className="fas fa-times"></i></DeleteB>
     )
 }
 

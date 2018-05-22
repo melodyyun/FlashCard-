@@ -89,6 +89,11 @@ p{
 }
 
 .delete{
+    @include font(20, 80 ,100);
+    border: none;
+    padding: 1rem 2rem;
+    z-index: 4;
+    transition: 0.3s linear;
     height: 35px;
     width: 35px;
     position: absolute;

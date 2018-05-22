@@ -2,3 +2,5 @@ node_modules/
 public/**/*
 package-lock.json
 dev/scripts/firebase/firebase-config.js
+.firebaserc
+firebase.json
