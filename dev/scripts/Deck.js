@@ -46,12 +46,13 @@ const DeckOfCards = styled.div`
 `
 
 const Heart = styled.div`
+    cursor: pointer;
     position absolute;
     bottom: 40px;
     height: 60px;
     width: 100%;
     background: linear-gradient(rgba(247, 253, 255, 0.3), rgba(247, 253, 255, 1));
-    span{
+    a{
         position: absolute;
         top: 50%;
         left: 50%;
@@ -90,19 +91,37 @@ class Deck extends React.Component{
         super();
         this.state = {
             display: 'home',
-            selectedDeckId: ''
+            selectedDeckId: '',
+            likes: 0,
         };
         this.updateLikes = this.updateLikes.bind(this);
     }
 
     componentDidMount(){
+        const dbRef = firebase.database().ref(`user/decksList/${this.props.DeckIdKey}/`);
+
+        dbRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            this.setState({
+                likes: data.likes
+            });
+        });
         this.setState({
             display: this.props.display,
         });       
     }
 
-    function updateLikes(){
-        
+    updateLikes(){
+        const dbRef = firebase.database().ref(`user/decksList/${this.props.DeckIdKey}/`);
+
+        let updatedLikes = this.state.likes + 1;
+        this.setState({
+            likes: updatedLikes
+        }, ()=>{
+            dbRef.update({
+            likes: this.state.likes
+            });
+        })
     }
 
     render(){
@@ -118,7 +137,7 @@ class Deck extends React.Component{
                     <p>{this.props.deckDescription}</p>
                 </DeckOfCards>
                 <Heart>
-                    <span>{this.props.deckLikes}</span><i className="fas fa-heart"></i>
+                    <a onClick={this.updateLikes}>{this.props.deckLikes}</a><i className="fas fa-heart"></i>
                 </Heart>
                 <ButtonContainer>
                     <button 
