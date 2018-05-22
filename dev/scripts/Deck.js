@@ -129,7 +129,7 @@ class Deck extends React.Component{
             <DeckContainer onClick={this.handleDeckClick}>
                 {/* delete button */}
                 {this.props.deckDelete === true ?
-                    <button className="btn delete" onClick={() => this.props.deleteDeck(this.props.DeckIdKey)}><span><i className="fas fa-times"></i></span></button>
+                    <button className="delete" onClick={() => this.props.deleteDeck(this.props.DeckIdKey)}><span><i className="fas fa-times"></i></span></button>
                     : null
                 }
                 <DeckOfCards>
