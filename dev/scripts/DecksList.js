@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import Deck from './Deck';
+import Loader from './Loader';
 
 class DecksList extends React.Component{
     constructor(){
@@ -9,7 +10,7 @@ class DecksList extends React.Component{
             deckName: '',
             deckDescription: '',
             public: true,
-            likes: null,
+            likes: 0,
             displayAddCard: false,
             decksArray: [],
             //display states, set the state in componentDidMount not in constructor
@@ -48,7 +49,7 @@ class DecksList extends React.Component{
 
     render(){
         return(
-            <ul>
+            <ul className="DecksList">
                 {this.state.decksArray.map((deck) => {
                     return (
                         <Deck 

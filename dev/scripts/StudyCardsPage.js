@@ -103,5 +103,3 @@ class StudyCardsPage extends React.Component {
 }
 
 export default StudyCardsPage;
-
-{/* <FontAwesome name='fa-home' /> */}

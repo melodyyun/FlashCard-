@@ -102,9 +102,11 @@ class Deck extends React.Component{
 
         dbRef.on('value', (snapshot) => {
             const data = snapshot.val();
-            this.setState({
-                likes: data.likes
-            });
+            if(data !== null){
+                this.setState({
+                    likes: data.likes
+                });
+            }
         });
         this.setState({
             display: this.props.display,
