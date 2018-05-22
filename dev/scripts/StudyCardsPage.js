@@ -24,21 +24,13 @@ class StudyCardsPage extends React.Component {
     componentWillMount() {
         const dbRefDeck = firebase.database().ref(`user/decksList/${this.props.selectedDeckId}`)
 
-        dbRefDeck.on('value', gotData, errData);
-
-        function gotData(data){ 
-            const snapshot = data.val();
+        dbRefDeck.on('value', (snapshot) => {
+            const data = snapshot.val();
             this.setState({
-                selectedDeckName: snapshot.deckName,
-                selectedDeckDescription: snapshot.deckDescription
+                selectedDeckName: data.deckName,
+                selectedDeckDescription: data.deckDescription,
             })
-        }
-
-        function errData(err) {
-            console.log('Error!');
-            console.log(err);
-            
-        }
+        });
 
         const dbRefCardsList = firebase.database().ref(`user/decksList/${this.props.selectedDeckId}/cardsList/`);
         dbRefCardsList.on('value', (snapshot) => {
@@ -85,17 +77,26 @@ class StudyCardsPage extends React.Component {
 
     render() {
         return (
-            <div className="wrappers">
-                <p>this is the study page</p>
-                <button className="btn" name="home" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Home</button>
-                <button className="btn" name="edit" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Edit</button>
-                <Card 
-                    front = {this.state.currentCard.cardFront}
-                    back = {this.state.currentCard.cardBack}
-                    updateCard = {this.updateCard}
-                    getRandomCard = {this.getRandomCard}/>
-                <DrawButton
-                    drawCard={this.updateCard} />
+            <div>
+                <div className="hero4">
+                    <div className="wrapper">
+                        <h1>{this.state.selectedDeckName}</h1>
+                        <h3>{this.state.selectedDeckDescription}</h3>
+                    </div>
+                </div>
+                <div className="wrapper center">
+                    <div className="btn-container">
+                        <button className="btn" name="home" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Home</button>
+                        <button className="btn" name="edit" value={this.props.selectedDeckId} onClick={(e) => this.props.changeDisplay(e)}>Edit</button>
+                    </div>
+                    <Card 
+                        front = {this.state.currentCard.cardFront}
+                        back = {this.state.currentCard.cardBack}
+                        updateCard = {this.updateCard}
+                        getRandomCard = {this.getRandomCard}/>
+                    <DrawButton
+                        drawCard={this.updateCard} />
+                </div>
             </div>
         )
     }

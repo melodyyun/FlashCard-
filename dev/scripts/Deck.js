@@ -82,7 +82,9 @@ const ButtonContainer = styled.div`
         width: 50%;
     }
 `
-
+//------------
+// Deck Class
+//------------
 class Deck extends React.Component{
     constructor(){
         super();
@@ -90,12 +92,17 @@ class Deck extends React.Component{
             display: 'home',
             selectedDeckId: ''
         };
+        this.updateLikes = this.updateLikes.bind(this);
     }
 
     componentDidMount(){
         this.setState({
             display: this.props.display,
         });       
+    }
+
+    function updateLikes(){
+        
     }
 
     render(){

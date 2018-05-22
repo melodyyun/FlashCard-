@@ -10,6 +10,10 @@ const Li = styled.li`
     list-style: none;
     position: relative;
 `
+const CardForm = styled.div`
+    position: relative;
+    height: 300px;
+`
 
 class CardsList extends React.Component{
     constructor(){
@@ -99,19 +103,22 @@ class CardsList extends React.Component{
         return(
             <div>
                 {/* create card */}
-                <form action="" onSubmit={(e) => this.createCard(e, this.props.selectedDeckId)}>
-                    <input type="text"
-                        name="cardFront"
-                        placeholder="Front of card"
-                        value={this.state.cardFront}
-                        onChange={this.handleChange} required />
-                    <input type="text"
-                        name="cardBack"
-                        placeholder="Back of card"
-                        value={this.state.cardBack}
-                        onChange={this.handleChange} required />
-                    <input type="submit" />
-                </form>
+                <CardForm className="createDeckFormParent wrapper">
+                    <form className="createDeckForm formBg marginTop2" action="" onSubmit={(e) => this.createCard(e, this.props.selectedDeckId)}>
+                        <h3>Create a Card!</h3>
+                        <input type="text"
+                            name="cardFront"
+                            placeholder="Front of card"
+                            value={this.state.cardFront}
+                            onChange={this.handleChange} required />
+                        <input type="text"
+                            name="cardBack"
+                            placeholder="Back of card"
+                            value={this.state.cardBack}
+                            onChange={this.handleChange} required />
+                        <input className="btn primary" type="submit" />
+                    </form>
+                </CardForm>
                 <ul>
                     {this.state.cardsArray.map((card) => {
                         return(

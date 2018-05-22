@@ -16,6 +16,8 @@
 html body{
     //overflow: hidden;
     background: $neutral;
+    margin: 0;
+    padding: 0;
 }
 
 //-----------
@@ -24,10 +26,16 @@ html body{
 
 h1{
     @include font(70, 100 ,100);
+    @media only screen and (max-width: 460px) {
+        @include font(40, 100 ,100);
+    }
 }
 
 h2{
     @include font(40, 80 ,100);
+    @media only screen and (max-width: 460px) {
+        @include font(30, 100 ,100);
+    }
 }
 
 h3{
@@ -51,6 +59,7 @@ p{
     @include font(20, 80 ,100);
     border: none;
     padding: 1rem 2rem;
+    z-index: 4;
 }
 
 .primary{
@@ -82,6 +91,11 @@ p{
         }
     }
 }
+
+.btn-container{
+    bottom: 100px;
+}
+
 //------
 //Input
 //------
@@ -93,12 +107,11 @@ input[type=text]{
 }
 
 .formBg{
-    background-color: $sky;
+    background-color: $neutral;
     padding: 4rem;
     box-shadow: 0 14px 28px $transparentBlack, 0 10px 10px $transparentBlack;
+    opacity: 0.8;
 }
-
-
 
 //-------
 //Layout
@@ -107,7 +120,7 @@ input[type=text]{
     width: 70%;
     margin: 0 auto;
     position: relative;
-    @media only screen and (max-width: 900px) {
+    @media only screen and (max-width: 1200px) {
         width: 90%;
     }
 }
@@ -116,8 +129,21 @@ input[type=text]{
     @include flex('row');
 }
 
+.center{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
 .relative{
     position: relative;
+    height: 400px;
+    margin-top: 14px;
+}
+
+.float-right{
+    float: right;
 }
 
 ul{
@@ -127,21 +153,21 @@ ul{
     @media only screen and (max-width: 1950px) {
         @include grid($grid-col-4);
     }
-    @media only screen and (max-width: 1570px) {
+    @media only screen and (max-width: 1560px) {
         @include grid($grid-col-3);
     }
-    @media only screen and (max-width: 1190px) {
+    @media only screen and (max-width: 900px) {
         @include grid($grid-col-2);
     }
-    @media only screen and (max-width: 620px) {
+    @media only screen and (max-width: 600px) {
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
 }
-//----
-//App
-//----
+//-------
+// Heros
+//-------
 
 .hero{
     padding: 1px;
@@ -149,7 +175,7 @@ ul{
     min-height: 300px;
     background: url(coffee.jpg) no-repeat fixed;
     background-position-x: center;
-    background-position-y: -263px;
+    background-position-y: -200px;
     background-size: cover;
     display: flex;
     flex-flow: column wrap; 
@@ -157,8 +183,51 @@ ul{
     text-align: right;
 }
 
+.hero1{
+    position: absolute;
+    transform: skewY(2.5deg);
+    width: 50%;
+    left: 0;
+}
+
+.hero2{
+    position: absolute;
+    width: 50%;
+    right: 0;
+    transform: skewY(-2.5deg);
+
+    @media only screen and (max-width: 465px) {
+        width: 100%;
+    }
+}
+
+.hero3{
+    background: url(mug.jpg) no-repeat fixed center center;
+    padding: 1px;
+    margin-top: -10px;
+    height: 40vh;
+    min-height: 400px;
+    transform: skewY(-3deg);
+    background-size: cover;
+}
+
+.hero4{
+    background: url(mac.jpg) no-repeat fixed;
+    background-position-x: center;
+    background-position-y: -200px;
+    padding: 1px;
+    margin-top: -10px;
+    height: 20vh;
+    min-height: 300px;
+    transform: skewY(3deg);
+    background-size: cover;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
 .deckListContainer{
-    padding-top: 200px;
+    padding-top: 150px;
     z-index: 1;
     background: #EFEFEF;
     width: 100%;
@@ -170,12 +239,20 @@ ul{
 //----------
 .createDeckFormParent{
   position: relative;
-  z-index:1
+  z-index:1;
+  width: 300px;
+}
+
+.marginTop{
+    margin-top: -150px;
+}
+
+.marginTop2{
+    margin-top: -50px;
 }
 
 .createDeckForm {
-  margin-top: -100px;
-  max-height: 290px;
+  height: 270px;
   position: absolute;
   width: 324px;
 
@@ -187,10 +264,11 @@ ul{
         left: 0px;
         width: 324px;
         height: 270px;
-        background: #A9A9A9;
+        background: $carbon;
         z-index: -1;
         transform: rotate(0deg);
         transition: all 0.5s ease-in-out;
+        opacity: 0.7;
     }
     &:hover::before, 
     &:focus::before {
@@ -208,9 +286,10 @@ ul{
         left: 0px;
         width: 324px;
         height: 270px;
-        background: #EFEFEF;
+        background: $sky;
         z-index: -1;
         transition: all 0.5s ease-in-out;
+        opacity: 0.7;
     }
     &:hover::after, &:focus::after {
         content: "";
@@ -292,3 +371,43 @@ ul{
 	transform: rotateY(-180deg);
 }
 
+//-----------
+// Animation
+//-----------
+
+// .editHeader{
+//     width:100%;
+//     background: #EFEFEF;
+//     padding: 1px 0 4rem 0;
+//     height: 25rem;
+//     display: flex;
+//     align-items: center;
+//     position: relative;
+// }
+// .bookHover{
+//     position: absolute;
+//     max-width: 30%;
+//     max-height: 100%;
+//     height: auto;
+//     right: 20%;
+//     transform: translateY(20%);
+//     animation: hover 3s linear infinite;
+// }
+//     @keyframes hover{
+//         0% {transform: translateY(20%)}
+//         100% {transform: translateY(0%)}
+//     }
+
+// img{
+//         position: absolute;
+//         max-width: 30%;
+//         max-height: 100%;
+//         height: auto;
+//         right: 0%;
+//         transform: translateY(20%);
+//         animation: hover 3s linear infinite;
+//     }
+//     @keyframes hover{
+//         0% {transform: translateY(20%)}
+//         50% {transform: translateY(0%)}
+//     }

@@ -14,7 +14,7 @@ class DrawButton extends React.Component{
     render(props){
         return(
             <div>
-                <button onClick={this.drawCard}>DrawCard</button>
+                <button className="btn primary" onClick={this.drawCard}>DrawCard</button>
             </div>
         )
     }

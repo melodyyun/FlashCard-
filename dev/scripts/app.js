@@ -6,20 +6,7 @@ import {firebaseConfig} from './firebase/firebase-config';
 // import ui from 'firebaseui'
 import StudyCardsPage from './StudyCardsPage';
 import EditCardsPage from './EditCardsPage';
-import styled from 'styled-components';
 import Deck from './Deck';
-
-//------------------
-// Styled components 5px 5px #A9A9A9
-//------------------
-
-const Hero = styled.div`
-  padding-top: 200px;
-  z-index: 1;
-  background: #EFEFEF;
-  width: 100%;
-  min-height: 60vh;
-`
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -92,13 +79,17 @@ class App extends React.Component {
       <div>
         {this.state.display === 'home' ? 
         <section>
-          <div className="hero">
-            <div className="wrapper">
-              <h1>Study Buddy</h1>
+          <div className="relative">
+            <div className="hero hero1">
+            </div>
+            <div className="hero hero2">
+              <div className="wrapper">
+                <h1>Study Buddy</h1>
+              </div>
             </div>
           </div>
           <div className="createDeckFormParent wrapper">
-            <div className="createDeckForm formBg">
+            <div className="createDeckForm formBg marginTop">
               <h3>Create a Deck!</h3>
               <form action="" onSubmit={this.createDeck}>
                 <input type="text"
