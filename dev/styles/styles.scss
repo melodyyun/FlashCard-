@@ -60,16 +60,32 @@ p{
     border: none;
     padding: 1rem 2rem;
     z-index: 4;
+    transition: 0.3s linear;
+}
+.btn:hover, .btn:focus, .btn:active{
+    transform: scale(1.02);
+    background: $carbon;
+    color: $white;
 }
 
 .primary{
     background: $watermelon;
     color: $white;
+    transition: 0.3s linear;
+}
+
+.primary:hover, .primary:hover, .primary:focus{
+    background: $carbon;
 }
 
 .secondary{
     background: darken($sky, 10%);
     color: $white;
+    transition: 0.3s linear;
+}
+
+.secondary:hover, .secondary:hover, .secondary:focus{
+    background: $carbon;
 }
 
 .delete{

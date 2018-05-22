@@ -29,6 +29,7 @@ class CardsList extends React.Component{
         this.deleteCard = this.deleteCard.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.createCard = this.createCard.bind(this);
+        this.cardClick = this.cardClick.bind(this);
     }
 
     componentWillMount(){
@@ -99,6 +100,13 @@ class CardsList extends React.Component{
         })
     }
 
+    //------------
+    // Card Click
+    //------------
+    cardClick(){
+        this.toggleClass('flipper');
+    }
+
     render(){
         return(
             <div>
@@ -129,7 +137,8 @@ class CardsList extends React.Component{
                                 <Card 
                                     cardIdKey={card.key}
                                     front={card.cardFront}
-                                    back={card.cardBack}/>
+                                    back={card.cardBack}
+                                    cardFlip={this.cardClick}/>
                             </Li>
                         )
                     })}
