@@ -29,7 +29,6 @@ class CardsList extends React.Component{
         this.deleteCard = this.deleteCard.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.createCard = this.createCard.bind(this);
-        this.cardClick = this.cardClick.bind(this);
     }
 
     componentWillMount(){
@@ -98,13 +97,6 @@ class CardsList extends React.Component{
             cardBack: '',
             selectedDeckId: this.props.DeckIdKey
         })
-    }
-
-    //------------
-    // Card Click
-    //------------
-    cardClick(){
-        this.toggleClass('flipper');
     }
 
     render(){

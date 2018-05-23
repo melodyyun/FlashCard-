@@ -341,26 +341,32 @@ ul{
 	transform-style: preserve-3d;
     position: relative;
 }
+    .backFlip {
+		transform: rotateY(0deg);
+    }
+    .frontFlip {
+	    transform: rotateY(180deg);
+    }
 
-	.flip-container:hover .back {
-		transform: rotateY(0deg);
-    }
-    .flip-container:focus .back {
-		transform: rotateY(0deg);
-    }
-    .flip-container:active .back {
-		transform: rotateY(0deg);
-    }
+	// .flip-container:hover .back {
+	// 	transform: rotateY(0deg);
+    // }
+    // .flip-container:focus .back {
+	// 	transform: rotateY(0deg);
+    // }
+    // .flip-container:active .back {
+	// 	transform: rotateY(0deg);
+    // }
     
-	.flip-container:hover .front {
-	    transform: rotateY(180deg);
-    }
-    .flip-container:focus .front {
-	    transform: rotateY(180deg);
-    }
-    .flip-container:active .front {
-	    transform: rotateY(180deg);
-	}
+	// .flip-container:hover .front {
+	//     transform: rotateY(180deg);
+    // }
+    // .flip-container:focus .front {
+	//     transform: rotateY(180deg);
+    // }
+    // .flip-container:active .front {
+	//     transform: rotateY(180deg);
+	// }
 
 .flip-container, .front, .back {
 	width: 250px;
@@ -391,44 +397,3 @@ ul{
 .back {
 	transform: rotateY(-180deg);
 }
-
-//-----------
-// Animation
-//-----------
-
-// .editHeader{
-//     width:100%;
-//     background: #EFEFEF;
-//     padding: 1px 0 4rem 0;
-//     height: 25rem;
-//     display: flex;
-//     align-items: center;
-//     position: relative;
-// }
-// .bookHover{
-//     position: absolute;
-//     max-width: 30%;
-//     max-height: 100%;
-//     height: auto;
-//     right: 20%;
-//     transform: translateY(20%);
-//     animation: hover 3s linear infinite;
-// }
-//     @keyframes hover{
-//         0% {transform: translateY(20%)}
-//         100% {transform: translateY(0%)}
-//     }
-
-// img{
-//         position: absolute;
-//         max-width: 30%;
-//         max-height: 100%;
-//         height: auto;
-//         right: 0%;
-//         transform: translateY(20%);
-//         animation: hover 3s linear infinite;
-//     }
-//     @keyframes hover{
-//         0% {transform: translateY(20%)}
-//         50% {transform: translateY(0%)}
-//     }
