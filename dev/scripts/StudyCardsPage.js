@@ -22,7 +22,7 @@ class StudyCardsPage extends React.Component {
     }
 
     componentWillMount() {
-        const dbRefDeck = firebase.database().ref(`user/decksList/${this.props.selectedDeckId}`)
+        const dbRefDeck = firebase.database().ref(`user/${this.props.uid}/decksList/${this.props.selectedDeckId}`)
 
         dbRefDeck.on('value', (snapshot) => {
             const data = snapshot.val();
@@ -32,7 +32,7 @@ class StudyCardsPage extends React.Component {
             })
         });
 
-        const dbRefCardsList = firebase.database().ref(`user/decksList/${this.props.selectedDeckId}/cardsList/`);
+        const dbRefCardsList = firebase.database().ref(`user/${this.props.uid}/decksList/${this.props.selectedDeckId}/cardsList/`);
         dbRefCardsList.on('value', (snapshot) => {
             const cardsListSnapshot = snapshot.val();
             //clone

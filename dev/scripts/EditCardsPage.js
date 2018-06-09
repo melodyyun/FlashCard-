@@ -30,8 +30,9 @@ class EditCardsPage extends React.Component {
     }
 
     componentWillMount() {
-        const dbRefDeck = firebase.database().ref(`user/decksList/${this.props.selectedDeckId}`)
+        const dbRefDeck = firebase.database().ref(`user/${this.props.uid}/decksList/${this.props.selectedDeckId}`)
         dbRefDeck.on('value', (snapshot) => {
+            console.log(snapshot.val());
             const data = snapshot.val();
             this.setState({
                 selectedDeckName: data.deckName,

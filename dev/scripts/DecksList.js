@@ -21,9 +21,12 @@ class DecksList extends React.Component{
     };
 
     componentDidMount() {
-        const dbRef = firebase.database().ref('user/decksList');
+        console.log(this.props.uid)
+        const dbRef = firebase.database().ref(`user/${this.props.uid}/decksList`);
         dbRef.on('value', (snapshot) => {
             const decksListSnap = snapshot.val();
+            console.log(decksListSnap);
+            
             //clone
             const tempDecksList = [];
             //loop obj to push into clone array
@@ -44,7 +47,7 @@ class DecksList extends React.Component{
     }
 
     deleteDeck(deckKey){
-        firebase.database().ref(`user/decksList/${deckKey}`).remove();
+        firebase.database().ref(`user/${this.props.uid}/decksList/${deckKey}`).remove();
     }
 
     render(){

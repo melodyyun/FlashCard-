@@ -7,6 +7,7 @@ import {firebaseConfig} from './firebase/firebase-config';
 import StudyCardsPage from './StudyCardsPage';
 import EditCardsPage from './EditCardsPage';
 import Deck from './Deck';
+import NavBar from './NavBar';
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -22,11 +23,74 @@ class App extends React.Component {
       selectedDeckId:'',
       selectedDeckName: '',
       selectedDeckDescription: '',
+      // user info
+      loggedIn:'',
+      userId: '',
+      userName: '',
+      userImg: '',
     }
     this.createDeck = this.createDeck.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.createDeck = this.createDeck.bind(this);
     this.changeDisplay = this.changeDisplay.bind(this);
+    this.loginWithGoogle = this.loginWithGoogle.bind(this);
+  }
+
+  //-----------------
+  // Authentication
+  //-----------------
+  componentDidMount() {
+    this.dbRef = firebase.database().ref('users/');
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user !== null) {
+        this.dbRef.on('value', (snapshot) => {
+          // console.log(snapshot.val());
+        })
+        this.setState({
+          loggedIn: true,
+          userName: user.displayName,
+          userImg: user.photoURL,
+          userId: user.uid,
+        })
+      } else {
+        this.setState({
+          loggedIn: false
+        })
+      }
+    })
+  }
+
+  loginWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+      .then((user) => {
+        // console.log(user.user);
+
+        const firebaseUid = user.user.uid;
+        const firebaseName = user.user.displayName;
+        const firebaseImg = user.user.photoURL;
+        this.setState({
+          userId: firebaseUid,
+          userName: firebaseName,
+          userImg: firebaseImg,
+        }, () => {
+          // console.log('pushing', this.state.userId);
+          const userInfo = {
+            userName: this.state.userName,
+            userImg: this.state.userImg,
+          }
+          firebase.database().ref(`users/accountInfo/${this.state.userId}`).set(userInfo);
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  logout() {
+    firebase.auth().signOut();
+    //this.dbRef.off('value');
   }
 
   //-----------------
@@ -61,7 +125,7 @@ class App extends React.Component {
       cards:[],
     }
 
-    const dbRef = firebase.database().ref('user/decksList');
+    const dbRef = firebase.database().ref(`user/${this.state.userId}/decksList`);
     dbRef.push(deck);
 
     this.setState({
@@ -77,6 +141,12 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <NavBar 
+          loggedIn = {this.state.loggedIn}
+          loginWithGoogle = {this.loginWithGoogle}
+          logout = {this.logout}
+          userName = {this.state.userName}
+          userImg = {this.state.userImg}/>
         {this.state.display === 'home' ? 
         <section>
           <div className="relative">
@@ -91,25 +161,29 @@ class App extends React.Component {
           <div className="createDeckFormParent wrapper">
             <div className="createDeckForm formBg marginTop">
               <h3>Create a Deck!</h3>
-              <form action="" onSubmit={this.createDeck}>
-                <input type="text"
-                  name="deckName"
-                  placeholder="Name your deck!"
-                  value={this.state.deckName}
-                  onChange={this.handleChange} required />
-                <input type="text"
-                  name="deckDescription"
-                  placeholder="Field of study"
-                  value={this.state.deckDescription}
-                  onChange={this.handleChange} required />
-                <input className="btn primary" type="submit" />
-              </form>
+              {this.state.loggedIn ? 
+                <form action="" onSubmit={this.createDeck}>
+                  <input type="text"
+                    name="deckName"
+                    placeholder="Name your deck!"
+                    value={this.state.deckName}
+                    onChange={this.handleChange} required />
+                  <input type="text"
+                    name="deckDescription"
+                    placeholder="Field of study"
+                    value={this.state.deckDescription}
+                    onChange={this.handleChange} required />
+                  <input className="btn primary" type="submit" />
+                </form> : 
+                <button onClick={this.loginWithGoogle}>Login!</button> 
+              }
             </div>
           </div>
           <div className="deckListContainer">
             <div className="wrapper">
                 <div>
                   <DecksList
+                    uid = {this.state.userId}
                     display={this.state.display}
                     // functions to change display state
                     changeDisplay={this.changeDisplay}
@@ -122,12 +196,14 @@ class App extends React.Component {
 
         {this.state.display === 'study'? 
           <StudyCardsPage 
+            uid = {this.state.userId}
             changeDisplay = {this.changeDisplay}
             selectedDeckId ={this.state.selectedDeckId}
             /> : null}
       
         {this.state.display === 'edit' ?
           <EditCardsPage 
+            uid={this.state.userId}
             changeDisplay = {this.changeDisplay}
             selectedDeckId ={this.state.selectedDeckId}
             /> : null}

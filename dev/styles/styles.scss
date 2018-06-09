@@ -25,10 +25,18 @@ html body{
 //-----------
 
 h1{
-    @include font(70, 100 ,100);
-    @media only screen and (max-width: 460px) {
-        @include font(40, 100 ,100);
+    // @include font(70, 100 ,100);
+    font-family: 'Hi Melody', cursive;
+    font-size: 12rem;
+    //line-height: 13rem;
+    margin: 0;
+    @media only screen and (max-width: 940px) {
+        font-size: 8rem;
     }
+    // @media only screen and (max-width: 460px) {
+    //     // @include font(40, 100 ,100);
+    //     font-family: 'Hi Melody', cursive;
+    // }
 }
 
 h2{
@@ -196,7 +204,6 @@ ul{
     min-height: 300px;
     background: url(coffee.jpg) no-repeat fixed;
     background-position-x: center;
-    background-position-y: -200px;
     background-size: cover;
     display: flex;
     flex-flow: column wrap; 
@@ -397,4 +404,84 @@ ul{
 
 .back {
 	transform: rotateY(-180deg);
+}
+
+//Auth bar
+.auth-bar{
+  background: $whiteTransparent;
+  position: fixed;
+  min-height: 10vh;
+  width: 100%;
+  z-index: 2;
+  padding: 1rem;
+  transition: all 0.5s linear;
+  top: 0;
+
+  .links{
+   margin: 0 auto;
+   position: relative;
+   min-height: 55px;
+   max-width: 80%;
+  }
+
+  .auth-link{
+    @include fontSizer(40);
+    color: $sky;
+    text-decoration: none;
+    font-family: 'Permanent Marker', cursive;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    float: left;
+    transform: rotate(3deg);
+  }
+  
+  .auth-link-active{
+    color: $black;
+  }
+
+  .auth-link:hover, .auth-bar:focus{
+    animation: tilt 3s ease-in-out infinite;
+  }
+  
+  img{
+    height: 5.5rem;
+    width: 5.5rem;
+    border-radius: 50%;
+    float: right;
+    border: 3.5px solid $black;
+    transition: all 1s ease;
+    &:hover{
+      box-shadow: 0px 0px 10px $black;
+      animation: tilt 3s ease-in-out infinite;
+    }
+  }
+}
+
+.auth-bar.hide{
+  transform: translateY(-100%);
+}
+
+@keyframes tilt{
+  0% {transform: rotate(0deg)}
+  20% {transform: rotate(3deg)}
+  50% {transform: rotate(-3deg) scale(1.05, 1.05)}
+  80% {transform: rotate(3deg)}
+}
+
+.auth-btn{
+  @include fontSizer(20);
+  font-family: 'Permanent Marker', cursive;
+  float: right;
+  color: $black;
+  position: relative;
+  padding-left: 2rem;
+  button{
+    background: transparent;
+    height: 55px;
+    color: $black;
+    border: none;
+    bottom: 0;
+    transform: translateX(-50%);
+  }
 }
