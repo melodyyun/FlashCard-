@@ -16,7 +16,6 @@ class DecksList extends React.Component{
             //display states, set the state in componentDidMount not in constructor
             display: '',
         }
-        //bind here
         this.deleteDeck = this.deleteDeck.bind(this);
     };
 
