@@ -1,9 +1,9 @@
-@import 'setup';
-@import 'utils';
+@import './styles/setup.scss';
+@import './styles/utils.scss';
 
 @font-face {
     font-family: "Avenir Next Variable";
-    src: url("./AvenirNext_Variable.ttf") format("truetype");
+    /*src: url("./AvenirNext_Variable.ttf") format("truetype");*/
 }
 
 *{
@@ -202,7 +202,7 @@ ul{
     padding: 1px;
     height: 40vh;
     min-height: 300px;
-    background: url(coffee.jpg) no-repeat fixed;
+    /*background: url(coffee.jpg) no-repeat fixed;*/
     background-position-x: center;
     background-size: cover;
     display: flex;
@@ -230,7 +230,7 @@ ul{
 }
 
 .hero3{
-    background: url(mug.jpg) no-repeat fixed center center;
+    /*background: url(mug.jpg) no-repeat fixed center center;*/
     padding: 1px;
     margin-top: -10px;
     height: 40vh;
@@ -240,7 +240,7 @@ ul{
 }
 
 .hero4{
-    background: url(mac.jpg) no-repeat fixed;
+    /*background: url(mac.jpg) no-repeat fixed;*/
     background-position-x: center;
     background-position-y: -200px;
     padding: 1px;
