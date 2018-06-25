@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import firebase from 'firebase';
-import DecksList from './DecksList';
-import {firebaseConfig} from './firebase/firebase-config';
+import DecksList from './components/DecksList';
+import firebaseConfig from './config/Firebase';
 // import ui from 'firebaseui'
-import StudyCardsPage from './StudyCardsPage';
-import EditCardsPage from './EditCardsPage';
-import Deck from './Deck';
-import NavBar from './NavBar';
+import StudyCardsPage from './components/StudyCardsPage';
+import EditCardsPage from './components/EditCardsPage';
+import Deck from './components/Deck';
+import NavBar from './components/NavBar';
+
+import './App.css';
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -210,6 +212,6 @@ class App extends React.Component {
       </div>
     )
   }
-}
+};
 
-ReactDOM.render(<App />, document.getElementById('app'));
+export default App;
