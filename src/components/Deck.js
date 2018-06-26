@@ -1,12 +1,11 @@
-import React from 'react';
-import firebase from 'firebase';
-import CardsList from './CardsList';
-import { log } from 'util';
-import styled from 'styled-components';
-
+import React from "react";
+import firebase from "firebase";
+import CardsList from "./CardsList";
+import { log } from "util";
+import styled from "styled-components";
 
 //------------------
-// Styled components 
+// Styled components
 //------------------
 
 const DeckContainer = styled.div`
@@ -30,20 +29,20 @@ const DeckContainer = styled.div`
         right: 0;
         top:0;
     }
-`
+`;
 
 const DeckOfCards = styled.div`
-    height: 250px;
-    position: relative;
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    padding: 0 2rem;
-    background: #F7FDFF;
-    h4{
-        text-align: center;
-    }
-`
+  height: 250px;
+  position: relative;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 2rem;
+  background: #f7fdff;
+  h4 {
+    text-align: center;
+  }
+`;
 
 const Heart = styled.div`
     cursor: pointer;
@@ -71,7 +70,7 @@ const Heart = styled.div`
             color: #FF383f;
         }
     }
-`
+`;
 
 const ButtonContainer = styled.div`
     position: absolute;
@@ -82,78 +81,100 @@ const ButtonContainer = styled.div`
     button{
         width: 50%;
     }
-`
+`;
 //------------
 // Deck Class
 //------------
-class Deck extends React.Component{
-    constructor(){
-        super();
-        this.state = {
-            display: 'home',
-            selectedDeckId: '',
-            likes: 0,
-        };
-        this.updateLikes = this.updateLikes.bind(this);
-    }
+class Deck extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      display: "home",
+      selectedDeckId: "",
+      likes: 0
+    };
+    this.updateLikes = this.updateLikes.bind(this);
+  }
 
-    componentDidMount(){
-        const dbRef = firebase.database().ref(`user/decksList/${this.props.DeckIdKey}/`);
+  componentDidMount() {
+    const dbRef = firebase
+      .database()
+      .ref(`user/decksList/${this.props.DeckIdKey}/`);
 
-        dbRef.on('value', (snapshot) => {
-            const data = snapshot.val();
-            if(data !== null){
-                this.setState({
-                    likes: data.likes
-                });
-            }
+    dbRef.on("value", snapshot => {
+      const data = snapshot.val();
+      if (data !== null) {
+        this.setState({
+          likes: data.likes
         });
-        this.setState({
-            display: this.props.display,
-        });       
-    }
+      }
+    });
+    this.setState({
+      display: this.props.display
+    });
+  }
 
-    updateLikes(){
-        const dbRef = firebase.database().ref(`user/decksList/${this.props.DeckIdKey}/`);
+  updateLikes() {
+    const dbRef = firebase
+      .database()
+      .ref(`user/decksList/${this.props.DeckIdKey}/`);
 
-        let updatedLikes = this.state.likes + 1;
-        this.setState({
-            likes: updatedLikes
-        }, ()=>{
-            dbRef.update({
-            likes: this.state.likes
-            });
-        })
-    }
+    let updatedLikes = this.state.likes + 1;
+    this.setState(
+      {
+        likes: updatedLikes
+      },
+      () => {
+        dbRef.update({
+          likes: this.state.likes
+        });
+      }
+    );
+  }
 
-    render(){
-        return (
-            <DeckContainer onClick={this.handleDeckClick}>
-                {/* delete button */}
-                {this.props.deckDelete === true ?
-                    <button className="delete" onClick={() => this.props.deleteDeck(this.props.DeckIdKey)}><span><i className="fas fa-times"></i></span></button>
-                    : null
-                }
-                <DeckOfCards>
-                    <h4>{this.props.deckName}</h4>
-                    <p>{this.props.deckDescription}</p>
-                </DeckOfCards>
-                <Heart>
-                    <a onClick={this.updateLikes}>{this.props.deckLikes}</a><i className="fas fa-heart"></i>
-                </Heart>
-                <ButtonContainer>
-                    <button 
-                        className="btn primary" name="study" 
-                        value={this.props.DeckIdKey}
-                        onClick={(e) => this.props.changeDisplay(e)}>Study</button>
-                    <button 
-                        className="btn secondary" name="edit" 
-                        value={this.props.DeckIdKey} 
-                        onClick={(e) => this.props.changeDisplay(e)}>Edit</button>
-                </ButtonContainer>
-            </DeckContainer>
-        )
-    }
+  render() {
+    return (
+      <DeckContainer onClick={this.handleDeckClick}>
+        {/* delete button */}
+        {this.props.deckDelete === true ? (
+          <button
+            className="delete"
+            onClick={() => this.props.deleteDeck(this.props.DeckIdKey)}
+          >
+            <span>
+              <i className="fas fa-times" />
+            </span>
+          </button>
+        ) : null}
+        <DeckOfCards>
+          <h4>{this.props.deckName}</h4>
+          <p>{this.props.deckDescription}</p>
+        </DeckOfCards>
+        <Heart>
+          <a onClick={this.updateLikes}>{this.props.deckLikes}</a>
+          <i className="fas fa-heart" />
+        </Heart>
+        <ButtonContainer>
+          <button
+            className="btn primary"
+            name="study"
+            value={this.props.DeckIdKey}
+            onClick={e => this.props.changeDisplay(e)}
+          >
+            Study
+          </button>
+          <button
+            className="btn secondary"
+            name="edit"
+            value={this.props.DeckIdKey}
+            onClick={e => this.props.changeDisplay(e)}
+          >
+            Edit
+          </button>
+        </ButtonContainer>
+      </DeckContainer>
+    );
+  }
 }
 
 export default Deck;

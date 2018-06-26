@@ -1,34 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import firebase from 'firebase';
-import DecksList from '../components/DecksList';
-import firebaseConfig from '../config/Firebase';
+import React from "react";
+import ReactDOM from "react-dom";
+import firebase from "firebase";
+import DecksList from "../components/DecksList";
+import firebaseConfig from "../config/Firebase";
 // import ui from 'firebaseui'
-import StudyCardsPage from './StudyCardsPage';
-import EditCardsPage from './EditCardsPage';
-import Deck from '../components/Deck';
-import NavBar from '../components/NavBar';
+import StudyCardsPage from "./StudyCardsPage";
+import EditCardsPage from "./EditCardsPage";
+import Deck from "../components/Deck";
+import NavBar from "../components/NavBar";
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 class Home extends React.Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
-      deckName: '',
-      deckDescription: '',
+      deckName: "",
+      deckDescription: "",
       likes: 0,
-      display: 'home',
-      selectedDeckId:'',
-      selectedDeckName: '',
-      selectedDeckDescription: '',
+      display: "home",
+      selectedDeckId: "",
+      selectedDeckName: "",
+      selectedDeckDescription: "",
       // user info
-      loggedIn:'',
-      userId: '',
-      userName: '',
-      userImg: '',
-    }
+      loggedIn: "",
+      userId: "",
+      userName: "",
+      userImg: ""
+    };
     this.createDeck = this.createDeck.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.createDeck = this.createDeck.bind(this);
@@ -40,52 +40,60 @@ class Home extends React.Component {
   // Authentication
   //-----------------
   componentDidMount() {
-    this.dbRef = firebase.database().ref('users/');
+    this.dbRef = firebase.database().ref("users/");
 
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(user => {
       if (user !== null) {
-        this.dbRef.on('value', (snapshot) => {
+        this.dbRef.on("value", snapshot => {
           // console.log(snapshot.val());
-        })
+        });
         this.setState({
           loggedIn: true,
           userName: user.displayName,
           userImg: user.photoURL,
-          userId: user.uid,
-        })
+          userId: user.uid
+        });
       } else {
         this.setState({
           loggedIn: false
-        })
+        });
       }
-    })
+    });
   }
 
   loginWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-      .then((user) => {
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(user => {
         // console.log(user.user);
 
         const firebaseUid = user.user.uid;
         const firebaseName = user.user.displayName;
         const firebaseImg = user.user.photoURL;
-        this.setState({
-          userId: firebaseUid,
-          userName: firebaseName,
-          userImg: firebaseImg,
-        }, () => {
-          // console.log('pushing', this.state.userId);
-          const userInfo = {
-            userName: this.state.userName,
-            userImg: this.state.userImg,
+        this.setState(
+          {
+            userId: firebaseUid,
+            userName: firebaseName,
+            userImg: firebaseImg
+          },
+          () => {
+            // console.log('pushing', this.state.userId);
+            const userInfo = {
+              userName: this.state.userName,
+              userImg: this.state.userImg
+            };
+            firebase
+              .database()
+              .ref(`users/accountInfo/${this.state.userId}`)
+              .set(userInfo);
           }
-          firebase.database().ref(`users/accountInfo/${this.state.userId}`).set(userInfo);
-        })
+        );
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-      })
+      });
   }
 
   logout() {
@@ -97,7 +105,7 @@ class Home extends React.Component {
   // Change Display
   //-----------------
 
-  changeDisplay(e){    
+  changeDisplay(e) {
     this.setState({
       selectedDeckId: e.target.value,
       display: e.target.name
@@ -108,10 +116,10 @@ class Home extends React.Component {
   // Events
   //----------
 
-  handleChange(e){
+  handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
-    })
+    });
   }
 
   createDeck(e) {
@@ -122,16 +130,18 @@ class Home extends React.Component {
       deckDescription: this.state.deckDescription,
       likes: 0,
       delete: true,
-      cards:[],
-    }
+      cards: []
+    };
 
-    const dbRef = firebase.database().ref(`user/${this.state.userId}/decksList`);
+    const dbRef = firebase
+      .database()
+      .ref(`user/${this.state.userId}/decksList`);
     dbRef.push(deck);
 
     this.setState({
-      deckName: '',
-      deckDescription: ''
-    })
+      deckName: "",
+      deckDescription: ""
+    });
   }
 
   //----------
@@ -141,75 +151,84 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <NavBar 
-          loggedIn = {this.state.loggedIn}
-          loginWithGoogle = {this.loginWithGoogle}
-          logout = {this.logout}
-          userName = {this.state.userName}
-          userImg = {this.state.userImg}/>
-        {this.state.display === 'home' ? 
-        <section>
-          <div className="relative">
-            <div className="hero hero1">
-            </div>
-            <div className="hero hero2">
-              <div className="wrapper">
-                <h1>Study Buddy</h1>
+        <NavBar
+          loggedIn={this.state.loggedIn}
+          loginWithGoogle={this.loginWithGoogle}
+          logout={this.logout}
+          userName={this.state.userName}
+          userImg={this.state.userImg}
+        />
+        {this.state.display === "home" ? (
+          <section>
+            <div className="relative">
+              <div className="hero hero1" />
+              <div className="hero hero2">
+                <div className="wrapper">
+                  <h1>Study Buddy</h1>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="createDeckFormParent wrapper">
-            <div className="createDeckForm formBg marginTop">
-              <h3>Create a Deck!</h3>
-              {this.state.loggedIn ? 
-                <form action="" onSubmit={this.createDeck}>
-                  <input type="text"
-                    name="deckName"
-                    placeholder="Name your deck!"
-                    value={this.state.deckName}
-                    onChange={this.handleChange} required />
-                  <input type="text"
-                    name="deckDescription"
-                    placeholder="Field of study"
-                    value={this.state.deckDescription}
-                    onChange={this.handleChange} required />
-                  <input className="btn primary" type="submit" />
-                </form> : 
-                <button onClick={this.loginWithGoogle}>Login!</button> 
-              }
+            <div className="createDeckFormParent wrapper">
+              <div className="createDeckForm formBg marginTop">
+                <h3>Create a Deck!</h3>
+                {this.state.loggedIn ? (
+                  <form action="" onSubmit={this.createDeck}>
+                    <input
+                      type="text"
+                      name="deckName"
+                      placeholder="Name your deck!"
+                      value={this.state.deckName}
+                      onChange={this.handleChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="deckDescription"
+                      placeholder="Field of study"
+                      value={this.state.deckDescription}
+                      onChange={this.handleChange}
+                      required
+                    />
+                    <input className="btn primary" type="submit" />
+                  </form>
+                ) : (
+                  <button onClick={this.loginWithGoogle}>Login!</button>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="deckListContainer">
-            <div className="wrapper">
+            <div className="deckListContainer">
+              <div className="wrapper">
                 <div>
                   <DecksList
-                    uid = {this.state.userId}
+                    uid={this.state.userId}
                     display={this.state.display}
                     // functions to change display state
                     changeDisplay={this.changeDisplay}
                   />
                 </div>
+              </div>
             </div>
-          </div>
-        </section>
-        : null}
+          </section>
+        ) : null}
 
-        {this.state.display === 'study'? 
-          <StudyCardsPage 
-            uid = {this.state.userId}
-            changeDisplay = {this.changeDisplay}
-            selectedDeckId ={this.state.selectedDeckId}
-            /> : null}
-      
-        {this.state.display === 'edit' ?
-          <EditCardsPage 
+        {this.state.display === "study" ? (
+          <StudyCardsPage
             uid={this.state.userId}
-            changeDisplay = {this.changeDisplay}
-            selectedDeckId ={this.state.selectedDeckId}
-            /> : null}
+            changeDisplay={this.changeDisplay}
+            selectedDeckId={this.state.selectedDeckId}
+          />
+        ) : null}
+
+        {this.state.display === "edit" ? (
+          <EditCardsPage
+            uid={this.state.userId}
+            changeDisplay={this.changeDisplay}
+            selectedDeckId={this.state.selectedDeckId}
+          />
+        ) : null}
       </div>
-    )
+    );
   }
-};
+}
 
 export default Home;
