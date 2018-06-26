@@ -1,5 +1,5 @@
 import React from 'react';
-import CardsList from './CardsList';
+import CardsList from '../components/CardsList';
 import styled from 'styled-components';
 import firebase from 'firebase';
 

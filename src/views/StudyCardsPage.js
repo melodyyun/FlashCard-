@@ -1,6 +1,6 @@
 import React from 'react';
-import Card from './Card';
-import DrawButton from './DrawButton';
+import Card from '../components/Card';
+import DrawButton from '../components/DrawButton';
 import firebase from 'firebase';
 
 class StudyCardsPage extends React.Component {
