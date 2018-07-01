@@ -1,0 +1,487 @@
+@import './styles/setup.scss';
+@import './styles/utils.scss';
+
+@font-face {
+    font-family: "Avenir Next Variable";
+    /*src: url("./AvenirNext_Variable.ttf") format("truetype");*/
+}
+
+*{
+    font-family: "Avenir Next Variable";
+    color: $black;
+    font-size: 62.5%;
+    font-variation-settings: 'wght' 70.164, 'wdth' 100.6799;
+}
+
+html body{
+    //overflow: hidden;
+    background: $neutral;
+    margin: 0;
+    padding: 0;
+}
+
+//-----------
+//Typography
+//-----------
+
+h1{
+    // @include font(70, 100 ,100);
+    font-family: 'Hi Melody', cursive;
+    font-size: 12rem;
+    //line-height: 13rem;
+    margin: 0;
+    @media only screen and (max-width: 940px) {
+        font-size: 8rem;
+    }
+    // @media only screen and (max-width: 460px) {
+    //     // @include font(40, 100 ,100);
+    //     font-family: 'Hi Melody', cursive;
+    // }
+}
+
+h2{
+    @include font(40, 80 ,100);
+    @media only screen and (max-width: 460px) {
+        @include font(30, 100 ,100);
+    }
+}
+
+h3{
+    @include font(30, 80 ,100);
+    margin: 0;
+}
+
+h4{
+    @include font(25, 80 ,100);
+    margin: 0;
+}
+
+p{
+    @include font(20, 80 ,100);
+}
+
+//--------
+//Button
+//--------
+.btn{
+    @include font(20, 80 ,100);
+    border: none;
+    padding: 1rem 2rem;
+    z-index: 4;
+    transition: 0.3s linear;
+}
+.btn:hover, .btn:focus, .btn:active{
+    transform: scale(1.02);
+    background: $carbon;
+    color: $white;
+}
+
+.primary{
+    background: $watermelon;
+    color: $white;
+    transition: 0.3s linear;
+}
+
+.primary:hover, .primary:hover, .primary:focus{
+    background: $carbon;
+}
+
+.secondary{
+    background: darken($sky, 10%);
+    color: $white;
+    transition: 0.3s linear;
+}
+
+.secondary:hover, .secondary:hover, .secondary:focus{
+    background: $carbon;
+}
+
+.delete{
+    @include font(20, 80 ,100);
+    border: none;
+    padding: 1rem 2rem;
+    z-index: 4;
+    transition: 0.3s linear;
+    height: 35px;
+    width: 35px;
+    position: absolute;
+    background: transparent;
+    span{
+        position: relative;
+        font-size: 2rem;
+    }
+    .fa-times{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        path{
+            color: $watermelon;
+        }
+    }
+}
+
+.btn-container{
+    bottom: 100px;
+}
+
+//------
+//Input
+//------
+input[type=text]{
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+    display: block;
+    margin: 1rem 1rem 1rem 0;
+}
+
+.formBg{
+    background-color: $neutral;
+    padding: 4rem;
+    box-shadow: 0 14px 28px $transparentBlack, 0 10px 10px $transparentBlack;
+    opacity: 0.8;
+}
+
+//-------
+//Layout
+//-------
+.wrapper{
+    width: 70%;
+    margin: 0 auto;
+    position: relative;
+    @media only screen and (max-width: 1200px) {
+        width: 90%;
+    }
+}
+
+.flex{
+    @include flex('row');
+}
+
+.center{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.relative{
+    position: relative;
+    height: 400px;
+    margin-top: 14px;
+}
+
+.float-right{
+    float: right;
+}
+
+ul{
+    padding-left: 0;
+
+    @include grid($grid-col-5);
+    @media only screen and (max-width: 1950px) {
+        @include grid($grid-col-4);
+    }
+    @media only screen and (max-width: 1560px) {
+        @include grid($grid-col-3);
+    }
+    @media only screen and (max-width: 900px) {
+        @include grid($grid-col-2);
+    }
+    @media only screen and (max-width: 600px) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+//-------
+// Heros
+//-------
+
+.hero{
+    padding: 1px;
+    height: 40vh;
+    min-height: 300px;
+    /*background: url(coffee.jpg) no-repeat fixed;*/
+    background-position-x: center;
+    background-size: cover;
+    display: flex;
+    flex-flow: column wrap; 
+    justify-content: center;
+    text-align: right;
+}
+
+.hero1{
+    position: absolute;
+    transform: skewY(2.5deg);
+    width: 50%;
+    left: 0;
+}
+
+.hero2{
+    position: absolute;
+    width: 50%;
+    right: 0;
+    transform: skewY(-2.5deg);
+
+    @media only screen and (max-width: 465px) {
+        width: 100%;
+    }
+}
+
+.hero3{
+    /*background: url(mug.jpg) no-repeat fixed center center;*/
+    padding: 1px;
+    margin-top: -10px;
+    height: 40vh;
+    min-height: 400px;
+    transform: skewY(-3deg);
+    background-size: cover;
+}
+
+.hero4{
+    /*background: url(mac.jpg) no-repeat fixed;*/
+    background-position-x: center;
+    background-position-y: -200px;
+    padding: 1px;
+    margin-top: -10px;
+    height: 20vh;
+    min-height: 300px;
+    transform: skewY(3deg);
+    background-size: cover;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.deckListContainer{
+    padding-top: 150px;
+    z-index: 1;
+    background: #EFEFEF;
+    width: 100%;
+    min-height: 40vh;
+}
+
+//----------
+//input form
+//----------
+.createDeckFormParent{
+  position: relative;
+  z-index:1;
+  width: 300px;
+}
+
+.marginTop{
+    margin-top: -150px;
+}
+
+.marginTop2{
+    margin-top: -50px;
+}
+
+.createDeckForm {
+  height: 270px;
+  position: absolute;
+  width: 324px;
+
+    &::before {
+        content: "";
+        position: absolute;
+        display: block;
+        top: 0px;
+        left: 0px;
+        width: 324px;
+        height: 270px;
+        background: $carbon;
+        z-index: -1;
+        transform: rotate(0deg);
+        transition: all 0.5s ease-in-out;
+        opacity: 0.7;
+    }
+    &:hover::before, 
+    &:focus::before {
+        content: "";
+        top: -13px;
+        left: 3px;
+        transform: rotate(5deg);
+        box-shadow: 0 14px 28px rgba(58, 58, 58, 0.2), 0 10px 10px rgba(58, 58, 58, 0.2);
+    }
+    &::after {
+        content: "";
+        position: absolute;
+        display: block;
+        top: 0px;
+        left: 0px;
+        width: 324px;
+        height: 270px;
+        background: $sky;
+        z-index: -1;
+        transition: all 0.5s ease-in-out;
+        opacity: 0.7;
+    }
+    &:hover::after, &:focus::after {
+        content: "";
+        top: -8px;
+        left: -1px;
+        transform: rotate(3deg);
+        box-shadow: 0 14px 28px rgba(58, 58, 58, 0.2), 0 10px 10px rgba(58, 58, 58, 0.2);
+    }
+}
+  
+
+//----------------
+//Single Card flip 
+//----------------
+
+.flip-container {
+    perspective: 1000px;
+    //container will keep perspective
+    transform-style: preserve-3d;
+    cursor: pointer;
+    height: 300px;
+    width: 250px;
+    margin: 2rem auto;
+}
+
+.flipper {
+	transition: transform 3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	transform-style: preserve-3d;
+    position: relative;
+}
+    // .backFlip {
+	// 	transform: rotateY(0deg);
+    // }
+    .frontFlip {
+	    transform: rotateY(180deg);
+    }
+
+	// .flip-container:hover .back {
+	// 	transform: rotateY(0deg);
+    // }
+    // .flip-container:focus .back {
+	// 	transform: rotateY(0deg);
+    // }
+    // .flip-container:active .back {
+	// 	transform: rotateY(0deg);
+    // }
+    
+	// .flip-container:hover .front {
+	//     transform: rotateY(180deg);
+    // }
+    // .flip-container:focus .front {
+	//     transform: rotateY(180deg);
+    // }
+    // .flip-container:active .front {
+	//     transform: rotateY(180deg);
+	// }
+
+.flip-container, .front, .back {
+	width: 250px;
+    height: 300px;
+    border-radius: 5px;
+}
+
+.front, .back {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+	transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+    text-align: center;
+    padding: 20px;
+    background: $white;
+    //background: url(paper.jpg);
+    box-shadow: 0 14px 28px $transparentBlack, 0 10px 10px $transparentBlack;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.front {
+	z-index: 2;
+	transform: rotateY(0deg);
+}
+
+.back {
+	transform: rotateY(-180deg);
+}
+
+//Auth bar
+.auth-bar{
+  background: $whiteTransparent;
+  position: fixed;
+  min-height: 10vh;
+  width: 100%;
+  z-index: 2;
+  padding: 1rem;
+  transition: all 0.5s linear;
+  top: 0;
+
+  .links{
+   margin: 0 auto;
+   position: relative;
+   min-height: 55px;
+   max-width: 80%;
+  }
+
+  .auth-link{
+    @include fontSizer(40);
+    color: $sky;
+    text-decoration: none;
+    font-family: 'Permanent Marker', cursive;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    float: left;
+    transform: rotate(3deg);
+  }
+  
+  .auth-link-active{
+    color: $black;
+  }
+
+  .auth-link:hover, .auth-bar:focus{
+    animation: tilt 3s ease-in-out infinite;
+  }
+  
+  img{
+    height: 5.5rem;
+    width: 5.5rem;
+    border-radius: 50%;
+    float: right;
+    border: 3.5px solid $black;
+    transition: all 1s ease;
+    &:hover{
+      box-shadow: 0px 0px 10px $black;
+      animation: tilt 3s ease-in-out infinite;
+    }
+  }
+}
+
+.auth-bar.hide{
+  transform: translateY(-100%);
+}
+
+@keyframes tilt{
+  0% {transform: rotate(0deg)}
+  20% {transform: rotate(3deg)}
+  50% {transform: rotate(-3deg) scale(1.05, 1.05)}
+  80% {transform: rotate(3deg)}
+}
+
+.auth-btn{
+  @include fontSizer(20);
+  font-family: 'Permanent Marker', cursive;
+  float: right;
+  color: $black;
+  position: relative;
+  padding-left: 2rem;
+  button{
+    background: transparent;
+    height: 55px;
+    color: $black;
+    border: none;
+    bottom: 0;
+    transform: translateX(-50%);
+  }
+}
