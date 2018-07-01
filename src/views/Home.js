@@ -20,39 +20,18 @@ class Home extends React.Component {
     selectedDeckName: "",
     selectedDeckDescription: "",
     // user info
-    loggedIn: "",
+    loggedIn: false,
     userId: "",
     userName: "",
     userImg: ""
-  }
+  };
 
   //converts props into state
-  static getDerivedStateFromProps(props) {
-    return props;
+  static getDerivedStateFromProps(props, state) {
+    return { ...props, ...state };
   }
 
   state = {};
-  //-----------------
-  // Authentication
-  //-----------------
-  componentDidMount() {
-    this.dbRef = firebase.database().ref("users/");
-
-    firebase.auth().onAuthStateChanged(user => {
-      if (user !== null) {
-        this.setState({
-          loggedIn: true,
-          userName: user.displayName,
-          userImg: user.photoURL,
-          userId: user.uid
-        });
-      } else {
-        this.setState({
-          loggedIn: false
-        });
-      }
-    });
-  }
 
   loginWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -60,64 +39,60 @@ class Home extends React.Component {
       .auth()
       .signInWithPopup(provider)
       .then(user => {
-        // console.log(user.user);
-
         const firebaseUid = user.user.uid;
         const firebaseName = user.user.displayName;
         const firebaseImg = user.user.photoURL;
-        console.log('Melody')
         this.setState(
           {
             userId: firebaseUid,
             userName: firebaseName,
             userImg: firebaseImg,
-            loggedIn: true,
+            loggedIn: true
           },
           () => {
-            console.log('pushing', this.state.userId);
             const userInfo = {
               userName: firebaseName,
               userImg: firebaseImg
             };
-            // firebase
-            //   .database()
-            //   .ref(`users/accountInfo/${firebaseUid}`)
-            //   .set(userInfo);
+            firebase
+              .database()
+              .ref(`users/accountInfo/${firebaseUid}`)
+              .set(userInfo);
           }
         );
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   logout = () => {
     firebase.auth().signOut();
     //this.dbRef.off('value');
-  }
+  };
 
   //-----------------
   // Change Display
   //-----------------
 
-  changeDisplay = (e) => {
+  changeDisplay = e => {
     this.setState({
       selectedDeckId: e.target.value,
       display: e.target.name
     });
-  }
+  };
 
   //----------
   // Events
   //----------
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     });
-  }
+  };
 
-  createDeck = (e) => {
+  createDeck = e => {
     e.preventDefault();
     //info that will be set for each Deck
     const deck = {
@@ -137,14 +112,14 @@ class Home extends React.Component {
       deckName: "",
       deckDescription: ""
     });
-  }
+  };
 
   //----------
   // Render
   //----------
 
   render() {
-    console.log(this.state);
+    console.log(this.state.loggedIn);
     return (
       <div>
         <NavBar
