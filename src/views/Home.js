@@ -7,6 +7,23 @@ import StudyCardsPage from "./StudyCardsPage";
 import EditCardsPage from "./EditCardsPage";
 import NavBar from "../components/NavBar";
 
+//make a new context
+const UserContext = React.createContext();
+
+//create provider component
+class UserProvider extends React.Component{
+  state = {
+    loggedIn: false,
+  }
+  render() {
+    return(
+      <UserContext.Provider value="userID">
+        {this.props.children}
+      </UserContext.Provider>
+    )
+  }
+}
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
@@ -114,6 +131,31 @@ class Home extends React.Component {
     });
   };
 
+  //----------------------------------------------------------
+  //Check to see if user is already logged in, persists login
+  //----------------------------------------------------------
+  componentDidMount() {
+    this.dbRef = firebase.database().ref('users/');
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user !== null) {
+        this.dbRef.on('value', (snapshot) => {
+          console.log(snapshot.val());
+        })
+        this.setState({
+          loggedIn: true,
+          userName: user.displayName,
+          userImg: user.photoURL,
+          userId: user.uid,
+        })
+      } else {
+        this.setState({
+          loggedIn: false
+        })
+      }
+    });
+  }
+
   //----------
   // Render
   //----------
@@ -121,6 +163,7 @@ class Home extends React.Component {
   render() {
     console.log(this.state.loggedIn);
     return (
+      <UserProvider>
       <div>
         <NavBar
           loggedIn={this.state.loggedIn}
@@ -198,6 +241,7 @@ class Home extends React.Component {
           />
         ) : null}
       </div>
+      </UserProvider>
     );
   }
 }
