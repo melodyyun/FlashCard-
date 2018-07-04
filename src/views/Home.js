@@ -8,16 +8,62 @@ import EditCardsPage from "./EditCardsPage";
 import NavBar from "../components/NavBar";
 
 //make a new context
-const UserContext = React.createContext();
+export const UserContext = React.createContext();
 
 //create provider component
-class UserProvider extends React.Component{
+export class Provider extends React.Component{
   state = {
-    loggedIn: false,
+    userId: null,
+    userName: null,
+    userImg: null,
   }
+
+  loginWithGoogle = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(user => {
+        const firebaseUid = user.user.uid;
+        const firebaseName = user.user.displayName;
+        const firebaseImg = user.user.photoURL;
+        this.setState(
+          {
+            userId: firebaseUid,
+            userName: firebaseName,
+            userImg: firebaseImg,
+            //loggedIn: true
+          },
+          () => {
+            const userInfo = {
+              userName: firebaseName,
+              userImg: firebaseImg
+            };
+            firebase
+              .database()
+              .ref(`users/accountInfo/${firebaseUid}`)
+              .set(userInfo);
+          }
+        );
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  logout = () => {
+    firebase.auth().signOut();
+    //this.dbRef.off('value');
+  };
+
   render() {
     return(
-      <UserContext.Provider value="userID">
+      <UserContext.Provider value={{
+        state: this.state,
+        userId: this.state.user,
+        loginWithGoogle: this.state.loginWithGoogle,
+        logout: this.state.logout,
+        }}>
         {this.props.children}
       </UserContext.Provider>
     )
@@ -50,43 +96,6 @@ class Home extends React.Component {
 
   state = {};
 
-  loginWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then(user => {
-        const firebaseUid = user.user.uid;
-        const firebaseName = user.user.displayName;
-        const firebaseImg = user.user.photoURL;
-        this.setState(
-          {
-            userId: firebaseUid,
-            userName: firebaseName,
-            userImg: firebaseImg,
-            loggedIn: true
-          },
-          () => {
-            const userInfo = {
-              userName: firebaseName,
-              userImg: firebaseImg
-            };
-            firebase
-              .database()
-              .ref(`users/accountInfo/${firebaseUid}`)
-              .set(userInfo);
-          }
-        );
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  logout = () => {
-    firebase.auth().signOut();
-    //this.dbRef.off('value');
-  };
 
   //-----------------
   // Change Display
@@ -163,10 +172,10 @@ class Home extends React.Component {
   render() {
     console.log(this.state.loggedIn);
     return (
-      <UserProvider>
+      <Provider>
       <div>
         <NavBar
-          loggedIn={this.state.loggedIn}
+          //loggedIn={this.state.loggedIn}
           loginWithGoogle={this.loginWithGoogle}
           logout={this.logout}
           userName={this.state.userName}
@@ -241,7 +250,7 @@ class Home extends React.Component {
           />
         ) : null}
       </div>
-      </UserProvider>
+      </Provider>
     );
   }
 }
